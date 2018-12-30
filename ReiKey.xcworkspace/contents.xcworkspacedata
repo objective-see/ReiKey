@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <Group
+      location = "group:mainApp"
+      name = "mainApp">
+      <FileRef
+         location = "group:mainApp.xcodeproj">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:loginItem"
+      name = "loginItem">
+      <FileRef
+         location = "group:loginItem.xcodeproj">
+      </FileRef>
+   </Group>
+</Workspace>
