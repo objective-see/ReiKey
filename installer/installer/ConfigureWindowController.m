@@ -192,6 +192,9 @@
         //open URL
         [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:PATREON_URL]];
         
+        //close
+        [self.window close];
+        
         //bail
         goto bail;
     }
