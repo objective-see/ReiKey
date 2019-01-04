@@ -129,6 +129,15 @@ NSString* getMainAppPath()
     return mainApp;
 }
 
+//determine if installed
+// simply checks if application exists in /Applications
+BOOL isInstalled()
+{
+    //check if extension exists
+    return [[NSFileManager defaultManager] fileExistsAtPath:[APPS_FOLDER stringByAppendingPathComponent:APP_NAME]];
+}
+
+
 //for login item enable/disable
 // we use the launch services APIs, since replacements don't always work :(
 #pragma clang diagnostic push
@@ -254,7 +263,9 @@ BOOL removeLoginItem(NSURL* loginItem)
         }
         
         //current login item match self?
-        if(YES == [(__bridge NSURL *)currentLoginItem isEqual:loginItem])
+        // full path, or, name match
+        if( (YES == [(__bridge NSURL *)currentLoginItem isEqual:loginItem]) ||
+            (YES == [((__bridge NSURL *)currentLoginItem).path hasSuffix:loginItem.path.lastPathComponent]) )
         {
             //remove
             if(noErr != LSSharedFileListItemRemove(loginItemsRef, (__bridge LSSharedFileListItemRef)item))
@@ -267,13 +278,12 @@ BOOL removeLoginItem(NSURL* loginItem)
             }
             
             //dbg msg
-            logMsg(LOG_DEBUG, [NSString stringWithFormat:@"removed login item: %@", loginItem]);
+            logMsg(LOG_DEBUG, [NSString stringWithFormat:@"removed login item: %@", currentLoginItem]);
             
             //happy
             wasRemoved = YES;
             
-            //all done
-            goto bail;
+            //keep going though
         }
         
         //release
@@ -320,6 +330,56 @@ bail:
 }
 
 #pragma clang diagnostic pop
+
+//exec a process
+BOOL execTask(NSString* binaryPath, NSArray* arguments)
+{
+    //flag
+    BOOL wasExec = NO;
+    
+    //task
+    NSTask *task = nil;
+    
+    //init task
+    task = [[NSTask alloc] init];
+    
+    //set task's path
+    task.launchPath = binaryPath;
+    
+    //set task's args
+    if(nil != arguments)
+    {
+        //add
+        task.arguments = arguments;
+    }
+    
+    //dbg msg
+    #ifdef DEBUG
+    logMsg(LOG_DEBUG, [NSString stringWithFormat:@"@exec'ing %@ (args: %@)", binaryPath, arguments]);
+    #endif
+    
+    //wrap task launch
+    @try
+    {
+        //launch
+        [task launch];
+    }
+    @catch(NSException* exception)
+    {
+        //err msg
+        logMsg(LOG_ERR, [NSString stringWithFormat:@"task failed with %@", exception]);
+        
+        //bail
+        goto bail;
+    }
+    
+    //happy
+    wasExec = YES;
+    
+bail:
+    
+    return wasExec;
+}
 
 //get process name
 // either via app bundle, or path
@@ -629,37 +689,6 @@ void makeModal(NSWindowController* windowController)
     return;
 }
 
-//check if an instance of an app is already running
-BOOL isAppRunning(NSString* bundleID, BOOL shouldActivate)
-{
-    //flag
-    BOOL alreadyRunning = NO;
-    
-    //aleady an instance?
-    // make that instance active and then bail
-    for(NSRunningApplication* runningApp in [NSRunningApplication runningApplicationsWithBundleIdentifier:bundleID])
-    {
-        //another instance that's not this?
-        if(YES != [runningApp isEqual:[NSRunningApplication currentApplication]])
-        {
-            //set flag
-            alreadyRunning = YES;
-            
-            //should activate?
-            if(YES == shouldActivate)
-            {
-                //activate
-                [runningApp activateWithOptions:NSApplicationActivateAllWindows|NSApplicationActivateIgnoringOtherApps];
-            }
-            
-            //done looking
-            break;
-        }
-    }
-    
-    return alreadyRunning;
-}
-
 //path to login item
 NSString* loginItemPath()
 {
@@ -667,9 +696,9 @@ NSString* loginItemPath()
     return [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:[NSString stringWithFormat:@"/Contents/Library/LoginItems/%@.app", LOGIN_ITEM_NAME]];
 }
 
-//start the (helper) login item
+//start app
 // note: executed with 'NSWorkspaceLaunchWithoutActivation'
-BOOL startLoginItem()
+BOOL startApplication(NSURL* path, NSUInteger launchOptions)
 {
     //status var
     BOOL result = NO;
@@ -678,14 +707,13 @@ BOOL startLoginItem()
     NSError* error = nil;
     
     //dbg msg
-    logMsg(LOG_DEBUG, @"starting (helper) login item");
+    logMsg(LOG_DEBUG, [NSString stringWithFormat:@"starting application: %@", path]);
     
     //launch it
-    [[NSWorkspace sharedWorkspace] launchApplicationAtURL:[NSURL fileURLWithPath:loginItemPath()] options:NSWorkspaceLaunchWithoutActivation configuration:@{} error:&error];
-    if(nil != error)
+    if(nil == [[NSWorkspace sharedWorkspace] launchApplicationAtURL:path options:launchOptions configuration:@{} error:&error])
     {
         //err msg
-        logMsg(LOG_ERR, [NSString stringWithFormat:@"failed to start login item, %@/%@", loginItemPath(), error]);
+        logMsg(LOG_ERR, [NSString stringWithFormat:@"failed to application: %@/%@", path, error]);
         
         //bail
         goto bail;
@@ -697,6 +725,29 @@ BOOL startLoginItem()
 bail:
     
     return result;
+}
+
+//check if process is alive
+BOOL isProcessAlive(pid_t processID)
+{
+    //ret var
+    BOOL bIsAlive = NO;
+    
+    //signal status
+    int signalStatus = -1;
+    
+    //send kill with 0 to determine if alive
+    signalStatus = kill(processID, 0);
+    
+    //is alive?
+    if( (0 == signalStatus) ||
+       ((0 != signalStatus) && (errno != ESRCH)) )
+    {
+        //alive!
+        bIsAlive = YES;
+    }
+    
+    return bIsAlive;
 }
 
 

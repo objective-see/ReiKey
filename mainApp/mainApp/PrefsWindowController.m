@@ -161,10 +161,6 @@
         
         //set 'start at login'
         [sharedDefaults setBool:(BOOL)self.startAtLogin.state forKey:PREF_START_AT_LOGIN];
-        
-        //sync defaults to save
-        [sharedDefaults synchronize];
-
     }
     //'run with icon'
     // restart login item...
@@ -172,9 +168,6 @@
     {
         //set 'run with icon'
         [sharedDefaults setBool:(BOOL)self.runWithIcon.state forKey:PREF_RUN_WITH_ICON];
-        
-        //sync defaults to save
-        [sharedDefaults synchronize];
         
         //broadcast notification
         // tells login item to hide/show icon
@@ -187,9 +180,6 @@
     {
         //set 'run with icon'
         [sharedDefaults setBool:(BOOL)self.noUpdates.state forKey:PREF_NO_UPDATES];
-        
-        //sync defaults to save
-        [sharedDefaults synchronize];
     }
 
     return;

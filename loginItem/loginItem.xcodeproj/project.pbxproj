@@ -18,19 +18,19 @@
 		CD18CE6721D8504100D968D6 /* Update.m in Sources */ = {isa = PBXBuildFile; fileRef = CD18CE6321D8504100D968D6 /* Update.m */; };
 		CD18CE6821D8504100D968D6 /* UpdateWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD18CE6521D8504100D968D6 /* UpdateWindow.xib */; };
 		CD18CE6921D8504100D968D6 /* UpdateWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD18CE6621D8504100D968D6 /* UpdateWindowController.m */; };
-		CD21501C20AD2EE000CEF17B /* Sentry.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = CD21501B20AD2EE000CEF17B /* Sentry.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CD22785E20434CAC00C72C76 /* StatusBarPopover.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD22785B20434CAB00C72C76 /* StatusBarPopover.xib */; };
 		CD22785F20434CAC00C72C76 /* StatusBarPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD22785D20434CAB00C72C76 /* StatusBarPopoverController.m */; };
+		CD24D22021DEC35800E5CB14 /* Sentry.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = CD24D21E21DEC30100E5CB14 /* Sentry.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		CD21501A20AD2ECA00CEF17B /* Copy Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				CD21501C20AD2EE000CEF17B /* Sentry.framework in Copy Frameworks */,
+				CD24D22021DEC35800E5CB14 /* Sentry.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -61,21 +61,11 @@
 		CD18CE6421D8504100D968D6 /* UpdateWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdateWindowController.h; path = ../shared/UpdateWindowController.h; sourceTree = "<group>"; };
 		CD18CE6521D8504100D968D6 /* UpdateWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UpdateWindow.xib; path = ../shared/UpdateWindow.xib; sourceTree = "<group>"; };
 		CD18CE6621D8504100D968D6 /* UpdateWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateWindowController.m; path = ../shared/UpdateWindowController.m; sourceTree = "<group>"; };
-		CD21501B20AD2EE000CEF17B /* Sentry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sentry.framework; path = ../Carthage/Build/Mac/Sentry.framework; sourceTree = "<group>"; };
 		CD22785B20434CAB00C72C76 /* StatusBarPopover.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StatusBarPopover.xib; sourceTree = "<group>"; };
 		CD22785C20434CAB00C72C76 /* StatusBarPopoverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusBarPopoverController.h; sourceTree = "<group>"; };
 		CD22785D20434CAB00C72C76 /* StatusBarPopoverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusBarPopoverController.m; sourceTree = "<group>"; };
+		CD24D21E21DEC30100E5CB14 /* Sentry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sentry.framework; path = ../Carthage/Build/Mac/Sentry.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFrameworksBuildPhase section */
-		7D7755E01F02E05B00D0017D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		7D3B75001F13354900568828 /* Base.lproj */ = {
@@ -111,8 +101,8 @@
 				CD18CE2821D0768200D968D6 /* ReiKey Helper.entitlements */,
 				7D3B75201F13356900568828 /* Shared */,
 				7D7755E51F02E05B00D0017D /* Src */,
-				7D7755E41F02E05B00D0017D /* Products */,
 				CDAFF434203E55F300F27635 /* Frameworks */,
+				7D7755E41F02E05B00D0017D /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -155,7 +145,7 @@
 		CDAFF434203E55F300F27635 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				CD21501B20AD2EE000CEF17B /* Sentry.framework */,
+				CD24D21E21DEC30100E5CB14 /* Sentry.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -168,7 +158,6 @@
 			buildConfigurationList = 7D7755F41F02E05B00D0017D /* Build configuration list for PBXNativeTarget "loginItem" */;
 			buildPhases = (
 				7D7755DF1F02E05B00D0017D /* Sources */,
-				7D7755E01F02E05B00D0017D /* Frameworks */,
 				7D7755E11F02E05B00D0017D /* Resources */,
 				CD21501A20AD2ECA00CEF17B /* Copy Frameworks */,
 			);
@@ -196,6 +185,9 @@
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.Mac = {
+								enabled = 1;
+							};
+							com.apple.HardenedRuntime = {
 								enabled = 1;
 							};
 							com.apple.Sandbox = {
@@ -329,6 +321,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				SKIP_INSTALL = NO;
 			};
 			name = Debug;
 		};
@@ -378,6 +371,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				SKIP_INSTALL = NO;
 			};
 			name = Release;
 		};
@@ -389,6 +383,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = VBG97UB4TA;
+				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../Carthage/Build/Mac";
 				INFOPLIST_FILE = loginItem/Info.plist;
 				LIBRARY_SEARCH_PATHS = "";
@@ -397,6 +392,7 @@
 				OTHER_LDFLAGS = "-Wl,-sectcreate,__RESTRICT,__restrict,/dev/null";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.objective-see.reikey.helper";
 				PRODUCT_NAME = "ReiKey Helper";
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -408,6 +404,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = VBG97UB4TA;
+				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../Carthage/Build/Mac";
 				INFOPLIST_FILE = loginItem/Info.plist;
 				LIBRARY_SEARCH_PATHS = "";
@@ -416,6 +413,7 @@
 				OTHER_LDFLAGS = "-Wl,-sectcreate,__RESTRICT,__restrict,/dev/null";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.objective-see.reikey.helper";
 				PRODUCT_NAME = "ReiKey Helper";
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};

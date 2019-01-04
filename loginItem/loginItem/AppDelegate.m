@@ -15,6 +15,7 @@
 
 @implementation AppDelegate
 
+@synthesize alerts;
 @synthesize updateWindowController;
 @synthesize statusBarMenuController;
 
@@ -33,6 +34,9 @@
     
     //alloc init event taps obj
     eventTaps = [[EventTaps alloc] init];
+    
+    //init alerts
+    alerts = [NSMutableDictionary dictionary];
 
     //register notification listener for preferences changing...
     [[NSDistributedNotificationCenter defaultCenter] addObserverForName:NOTIFICATION_PREFS_CHANGED object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification)
@@ -76,17 +80,59 @@
     // listen for new event taps
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
     ^{
+        //prev tap
+        __block NSDictionary* previousTap = nil;
+        
         //start listening
         // show alert when new tap detected
-        // ...unless user has disabled the app
+        // ...unless user has disabled the app or same process
         [eventTaps observe:^(NSDictionary* tap)
         {
-            //enabled?
-            // show alert
-            if(YES != [[[NSUserDefaults alloc] initWithSuiteName:SUITE_NAME] boolForKey:PREF_IS_DISABLED])
+            //dbg msg
+            logMsg(LOG_DEBUG, [NSString stringWithFormat:@"new keyboard event tap: %@", tap]);
+            
+            //disabled?
+            if(YES == [[[NSUserDefaults alloc] initWithSuiteName:SUITE_NAME] boolForKey:PREF_IS_DISABLED])
             {
-                //alert
-                [self showAlert:tap];
+                //dbg msg
+                logMsg(LOG_DEBUG, @"ingoring alert: ReiKey is disabled");
+                
+                //ignore
+                return;
+            }
+            
+            //seen before (for same proc)?
+            previousTap = self.alerts[tap[TAP_SOURCE_PID]];
+            if( (nil != previousTap) &&
+                (YES == [getProcessPath([previousTap[TAP_SOURCE_PID] intValue]) isEqualToString:getProcessPath([tap[TAP_SOURCE_PID] intValue])]) )
+            {
+                //dbg msg
+                logMsg(LOG_DEBUG, @"ingoring alert: tapping process has already generated an alert");
+                
+                //ignore
+                return;
+            }
+            
+            //alert
+            [self showAlert:tap];
+            
+            //add and remove any old/dead pids
+            @synchronized(self.alerts)
+            {
+                //save
+                self.alerts[tap[TAP_SOURCE_PID]] = tap;
+                
+                //enpunge dead procs
+                for(NSDictionary* tapID in self.alerts.allKeys)
+                {
+                    //dead?
+                    // remove
+                    if(YES != isProcessAlive([self.alerts[tapID][TAP_SOURCE_PID] intValue]))
+                    {
+                        //remove
+                        [self.alerts removeObjectForKey:tapID];
+                    }
+                }
             }
         }];
     });
@@ -131,7 +177,7 @@
     NSUserNotification* notification = nil;
 
     //dbg msg
-    logMsg(LOG_DEBUG, @"XPC request from daemon: alert show");
+    logMsg(LOG_DEBUG, @"showing alert to user");
     
     //alloc notification
     notification = [[NSUserNotification alloc] init];
@@ -163,8 +209,7 @@
         //deliver notification
         [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
         
-        //TODO:
-        // add touch bar support
+        //TODO: add touch bar support
         //[((AppDelegate*)[[NSApplication sharedApplication] delegate]) initTouchBar];
         
     });

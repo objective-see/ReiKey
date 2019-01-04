@@ -34,6 +34,12 @@
                 <menuItem title="Preferences..." tag="103" id="Zao-2v-WyJ">
                     <modifierMask key="keyEquivalentModifierMask"/>
                 </menuItem>
+                <menuItem isSeparatorItem="YES" id="Fqp-a2-Ay3"/>
+                <menuItem title="Quit" keyEquivalent="q" id="Kfe-9U-SfZ">
+                    <connections>
+                        <action selector="terminate:" target="-1" id="Les-Wu-end"/>
+                    </connections>
+                </menuItem>
             </items>
             <point key="canvasLocation" x="55" y="10"/>
         </menu>

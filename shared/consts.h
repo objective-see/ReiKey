@@ -9,15 +9,63 @@
 #ifndef consts_h
 #define consts_h
 
+//install cmd
+#define CMD_INSTALL @"-install"
+
+//uninstall cmd
+#define CMD_UNINSTALL @"-uninstall"
+
+//button install
+#define UI_INSTALL @"Install"
+
+//button uninstall
+#define UI_UNINSTALL @"Uninstall"
+
+//button title
+#define UI_CLOSE @"Close"
+
+//button title
+#define UI_NEXT @"Next »"
+
+//button title
+#define UI_NO @"No"
+
+//button title
+#define UI_YES @"Yes!"
+
+//flag to uninstall
+#define ACTION_UNINSTALL 0
+
+//flag to install
+#define ACTION_INSTALL 1
+
+//flag for partial uninstall
+#define UNINSTALL_PARTIAL 0
+
+//flag for full uninstall
+#define UNINSTALL_FULL 1
+
+//applications location
+#define APPS_FOLDER @"/Applications"
+
+//path to pkill
+#define PKILL @"/usr/bin/pkill"
+
+//path to xattr
+#define XATTR @"/usr/bin/xattr"
+
+//path to open
+#define OPEN @"/usr/bin/open"
+
 //suite name
 // for shared preferences
-#define SUITE_NAME @"group.com.objective-see.reikey"
+#define SUITE_NAME @"com.objective-see.reikey.group"
 
 //main app bundle id
 #define APP_BUNDLE_ID @"com.objective-see.reikey"
 
 //login item bundle id
-#define LOGIN_ITEM @"com.objective-see.reikey.helper"
+#define LOGIN_ITEM_BUNDLE_ID @"com.objective-see.reikey.helper"
 
 //showed splash screen
 #define SHOWED_SPLASH @"showedSplash"
@@ -51,9 +99,6 @@
 
 //login item name
 #define LOGIN_ITEM_NAME @"ReiKey Helper"
-
-//flag to install login item
-#define ACTION_INSTALL 1
 
 //prefs
 // disabled status

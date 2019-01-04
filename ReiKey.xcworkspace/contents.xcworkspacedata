@@ -2,6 +2,13 @@
 <Workspace
    version = "1.0">
    <Group
+      location = "group:installer/installer"
+      name = "installer">
+      <FileRef
+         location = "group:../installer.xcodeproj">
+      </FileRef>
+   </Group>
+   <Group
       location = "group:mainApp"
       name = "mainApp">
       <FileRef

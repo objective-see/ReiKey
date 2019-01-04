@@ -32,7 +32,6 @@
 }
 
 //automatically invoked when window is loaded
-// ->set to white
 -(void)windowDidLoad
 {
     //super

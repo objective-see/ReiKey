@@ -122,6 +122,9 @@
 // reload table, etc.
 -(void)displayResults
 {
+    //flag
+    BOOL selectedRow = NO;
+    
     //hide overlay
     self.overlay.hidden = YES;
     
@@ -144,14 +147,22 @@
                 //select
                 [self.tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
 
+                //set flag
+                selectedRow = YES;
+                
                 //done
                 break;
             }
         }
+        
+        //unset
+        // (rescans) should default back to selecting first row
+        self.tapID = nil;
     }
-    //otherwise
-    // select first row
-    else
+    
+    //no row (manually) selected?
+    // just select first
+    if(YES != selectedRow)
     {
         //select first row
         [self.tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];

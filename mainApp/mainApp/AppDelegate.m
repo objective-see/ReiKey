@@ -74,12 +74,12 @@
         
         //if needed
         // start login item
-        if(nil == [[NSRunningApplication runningApplicationsWithBundleIdentifier:LOGIN_ITEM] firstObject])
+        if(nil == [[NSRunningApplication runningApplicationsWithBundleIdentifier:LOGIN_ITEM_BUNDLE_ID] firstObject])
         {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
             ^{
                 //start
-                startLoginItem();
+                startApplication([NSURL fileURLWithPath:loginItemPath()], NSWorkspaceLaunchWithoutActivation);
             });
         }
     }
@@ -151,9 +151,6 @@ bail:
 //show welcome/splash view
 -(void)showWelcome
 {
-    //shared defaults
-    NSUserDefaults* sharedDefaults = nil;
-    
     //disable all menu items except 'About ...'
     for(NSMenuItem* menuItem in NSApplication.sharedApplication.mainMenu.itemArray.firstObject.submenu.itemArray)
     {
@@ -176,10 +173,7 @@ bail:
     [self.welcomeWindowController.window makeKeyAndOrderFront:self];
     
     //set 'showed splash' key
-    [sharedDefaults setBool:YES forKey:SHOWED_SPLASH];
-    
-    //sync
-    [sharedDefaults synchronize];
+    [[[NSUserDefaults alloc] initWithSuiteName:SUITE_NAME] setBool:YES forKey:SHOWED_SPLASH];
     
     return;
 }

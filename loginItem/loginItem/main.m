@@ -25,16 +25,6 @@ int main(int argc, const char * argv[])
     //dbg msg
     logMsg(LOG_DEBUG, [NSString stringWithFormat:@"starting login item (args: %@)", [[NSProcessInfo processInfo] arguments]]);
     
-    //already running?
-    if(YES == isAppRunning([[NSBundle mainBundle] bundleIdentifier], NO))
-    {
-        //err msg
-        logMsg(LOG_DEBUG, @"an instance already running... exiting");
-        
-        //bail
-        goto bail;
-    }
-    
     //launch app normally
     iReturn = NSApplicationMain(argc, argv);
     

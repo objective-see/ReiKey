@@ -30,6 +30,9 @@
 //update window controller
 @property(nonatomic, retain)UpdateWindowController* updateWindowController;
 
+//alerts
+@property(nonatomic, retain)NSMutableDictionary* alerts;
+
 /* METHODS */
 
 @end

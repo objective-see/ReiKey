@@ -6,8 +6,8 @@
 //  Copyright © 2018 Objective-See. All rights reserved.
 //
 
-#ifndef Utilities_h
-#define Utilities_h
+#ifndef utilities_h
+#define utilities_h
 
 #import <AppKit/AppKit.h>
 #import <Foundation/Foundation.h>
@@ -27,6 +27,10 @@ NSString* getMainAppPath(void);
 //get app's version
 // ->extracted from Info.plist
 NSString* getAppVersion(void);
+
+//determine if installed
+// simply checks if application exists in /Applications
+BOOL isInstalled(void);
 
 //given a path to binary
 // parse it back up to find app's bundle
@@ -62,18 +66,12 @@ BOOL addLoginItem(NSURL* loginItem);
 //remove a login item
 BOOL removeLoginItem(NSURL* loginItem);
 
-//start the (helper) login item
-BOOL startLoginItem(void);
+//start app
+BOOL startApplication(NSURL* appPath, NSUInteger launchOptions);
 
 //get an icon for a process
 // for apps, this will be app's icon, otherwise just a standard system one
 NSImage* getIconForProcess(NSString* path);
-
-//check if a kext is loaded
-BOOL kextIsLoaded(NSString* kext);
-
-//wait until kext is loaded
-void wait4kext(NSString* kext);
 
 //wait until a window is non nil
 // then make it modal
@@ -82,21 +80,8 @@ void makeModal(NSWindowController* windowController);
 //find a process by name
 pid_t findProcess(NSString* processName);
 
-//hash a file (sha256)
-NSMutableString* hashFile(NSString* filePath);
-
-//convert IP addr to (ns)string
-NSString* convertIPAddr(unsigned char* ipAddr, __uint8_t socketFamily);
-
-//convert socket numeric address to (ns)string
-NSString* convertSocketAddr(struct sockaddr* socket);
-
-//check if an instance of an app is already running
-BOOL isAppRunning(NSString* bundleID, BOOL shouldActivate);
-
-//exec a process with args
-// if 'shouldWait' is set, wait and return stdout/in and termination status
-NSMutableDictionary* execTask(NSString* binaryPath, NSArray* arguments, BOOL shouldWait, BOOL grabOutput);
+//exec a process
+BOOL execTask(NSString* binaryPath, NSArray* arguments);
 
 //extract a DNS name
 NSMutableString* extractDNSName(unsigned char* start, unsigned char* chunk, unsigned char* end);
@@ -121,6 +106,9 @@ OSStatus transformApp(ProcessApplicationTransformState newState);
 //check if (full) dark mode
 // meaning, Mojave+ and dark mode enabled
 BOOL isDarkMode(void);
+
+//check if process is alive
+BOOL isProcessAlive(pid_t processID);
 
 //prettify JSON
 NSString* prettifyJSON(NSString* output);

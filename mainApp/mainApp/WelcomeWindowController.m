@@ -14,9 +14,8 @@
 
 #define VIEW_WELCOME 0
 #define VIEW_CONFIGURE 1
-#define VIEW_SUPPORT 2
-#define SUPPORT_NO 3
-#define SUPPORT_YES 4
+#define VIEW_FRIENDS 2
+#define VIEW_CLOSE 3
 
 @implementation WelcomeWindowController
 
@@ -74,9 +73,6 @@
         //set 'run with icon'
         [sharedDefaults setBool:(BOOL)self.runWithIcon.state forKey:PREF_RUN_WITH_ICON];
 
-        //sync
-        [sharedDefaults synchronize];
-        
         //act on 'start at login'
         if(NSControlStateValueOn == self.startAtLogin.state)
         {
@@ -96,8 +92,9 @@
     //set next view
     switch(((NSButton*)sender).tag)
     {
-        //welcome
-        case VIEW_WELCOME:
+        //start:
+        // show welcome
+        case 0:
         {
             //remove prev. subview
             [[[self.window.contentView subviews] lastObject] removeFromSuperview];
@@ -121,51 +118,45 @@
             [self.window.contentView addSubview:self.configureView];
             
             //make 'next' button first responder
-            [self.window makeFirstResponder:[self.configureView viewWithTag:VIEW_SUPPORT]];
+            [self.window makeFirstResponder:[self.configureView viewWithTag:VIEW_FRIENDS]];
             
             break;
         }
         
         //support
-        case VIEW_SUPPORT:
+        case VIEW_FRIENDS:
         {
             //remove prev. subview
             [[[self.window.contentView subviews] lastObject] removeFromSuperview];
             
             //set view
-            [self.window.contentView addSubview:self.supportView];
+            [self.window.contentView addSubview:self.friendsView];
             
-            //make 'yes' button first responder
-            [self.window makeFirstResponder:[self.supportView viewWithTag:SUPPORT_YES]];
+            //make 'close' button first responder
+            [self.window makeFirstResponder:[self.friendsView viewWithTag:VIEW_CLOSE]];
             
             break;
         }
             
-        //support, yes!
-        case SUPPORT_YES:
+        //close
+        case VIEW_CLOSE:
             
-            //open URL
-            // invokes user's default browser
-            [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:PATREON_URL]];
-        
-            //fall thru
-            // start login item
-            // terminate (main) app
-        
-        //support, no :(
-        case SUPPORT_NO:
+            //hide window
+            [self.window orderOut:self];
             
-            //start login item
+            //in background
+            // start login item, then exit installer
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
             ^{
-                    //start
-                    startLoginItem();
+                //start login item
+                startApplication([NSURL fileURLWithPath:loginItemPath()], NSWorkspaceLaunchWithoutActivation);
+                
+                //exit
+                [NSApp terminate:nil];
             });
             
-            //exit
-            [NSApp terminate:nil];
-            
         default:
+            
             break;
     }
 

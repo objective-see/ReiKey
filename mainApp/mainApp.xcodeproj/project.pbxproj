@@ -13,8 +13,6 @@
 		7D564DB61F18434F00B8AAD6 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D564DB41F18434F00B8AAD6 /* MainMenu.xib */; };
 		7D564DD61F18441500B8AAD6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D564DBF1F18441500B8AAD6 /* Assets.xcassets */; };
 		7D564DD91F18441500B8AAD6 /* ScanWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D564DC21F18441500B8AAD6 /* ScanWindowController.m */; };
-		7D564DDA1F18441500B8AAD6 /* AboutWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D564DC31F18441500B8AAD6 /* AboutWindowController.m */; };
-		7D564DDC1F18441500B8AAD6 /* AboutWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D564DC71F18441500B8AAD6 /* AboutWindow.xib */; };
 		7D564DDD1F18441500B8AAD6 /* Scan.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D564DC91F18441500B8AAD6 /* Scan.xib */; };
 		7D564DE01F18441500B8AAD6 /* ScanRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D564DD11F18441500B8AAD6 /* ScanRow.m */; };
 		7D564DE61F18446200B8AAD6 /* logging.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D564DE41F18446200B8AAD6 /* logging.m */; };
@@ -26,21 +24,14 @@
 		CD18CE5F21D8503000D968D6 /* Update.m in Sources */ = {isa = PBXBuildFile; fileRef = CD18CE5B21D8502F00D968D6 /* Update.m */; };
 		CD18CE6021D8503000D968D6 /* UpdateWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD18CE5D21D8502F00D968D6 /* UpdateWindow.xib */; };
 		CD18CE6121D8503000D968D6 /* UpdateWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD18CE5E21D8503000D968D6 /* UpdateWindowController.m */; };
+		CD18CE6D21DAD1F500D968D6 /* AboutWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD18CE6B21DAD1F500D968D6 /* AboutWindow.xib */; };
+		CD18CE6E21DAD1F500D968D6 /* AboutWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD18CE6C21DAD1F500D968D6 /* AboutWindowController.m */; };
 		CD21501820AD222800CEF17B /* Sentry.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = CD21501720AD222800CEF17B /* Sentry.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CDA6E644203B9DA800C78F91 /* Welcome.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA6E63B203B9DA700C78F91 /* Welcome.xib */; };
 		CDA6E648203B9DA800C78F91 /* WelcomeWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA6E642203B9DA700C78F91 /* WelcomeWindowController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		7DD25FEE1F23B5AE00277EC4 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = Contents/Library/LoginItems;
-			dstSubfolderSpec = 1;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		CD32C22F209015E3009CADF6 /* Copy Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -64,12 +55,9 @@
 		7D564DB71F18434F00B8AAD6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7D564DBF1F18441500B8AAD6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7D564DC21F18441500B8AAD6 /* ScanWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanWindowController.m; sourceTree = "<group>"; };
-		7D564DC31F18441500B8AAD6 /* AboutWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutWindowController.m; sourceTree = "<group>"; };
 		7D564DC61F18441500B8AAD6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = MainMenu.xib; sourceTree = "<group>"; };
-		7D564DC71F18441500B8AAD6 /* AboutWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutWindow.xib; sourceTree = "<group>"; };
 		7D564DC91F18441500B8AAD6 /* Scan.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Scan.xib; sourceTree = "<group>"; };
 		7D564DCB1F18441500B8AAD6 /* ScanWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanWindowController.h; sourceTree = "<group>"; };
-		7D564DCF1F18441500B8AAD6 /* AboutWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutWindowController.h; sourceTree = "<group>"; };
 		7D564DD01F18441500B8AAD6 /* ScanRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanRow.h; sourceTree = "<group>"; };
 		7D564DD11F18441500B8AAD6 /* ScanRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanRow.m; sourceTree = "<group>"; };
 		7D564DE31F18446200B8AAD6 /* consts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = consts.h; path = ../shared/consts.h; sourceTree = "<group>"; };
@@ -90,6 +78,9 @@
 		CD18CE5C21D8502F00D968D6 /* UpdateWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdateWindowController.h; path = ../shared/UpdateWindowController.h; sourceTree = "<group>"; };
 		CD18CE5D21D8502F00D968D6 /* UpdateWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UpdateWindow.xib; path = ../shared/UpdateWindow.xib; sourceTree = "<group>"; };
 		CD18CE5E21D8503000D968D6 /* UpdateWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateWindowController.m; path = ../shared/UpdateWindowController.m; sourceTree = "<group>"; };
+		CD18CE6A21DAD1F400D968D6 /* AboutWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutWindowController.h; path = ../shared/AboutWindowController.h; sourceTree = "<group>"; };
+		CD18CE6B21DAD1F500D968D6 /* AboutWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AboutWindow.xib; path = ../shared/AboutWindow.xib; sourceTree = "<group>"; };
+		CD18CE6C21DAD1F500D968D6 /* AboutWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutWindowController.m; path = ../shared/AboutWindowController.m; sourceTree = "<group>"; };
 		CD21501720AD222800CEF17B /* Sentry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sentry.framework; path = ../Carthage/Build/Mac/Sentry.framework; sourceTree = "<group>"; };
 		CD42FFCB21D05F67000A0461 /* ReiKey.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = ReiKey.entitlements; path = mainApp/ReiKey.entitlements; sourceTree = "<group>"; };
 		CDA6E63B203B9DA700C78F91 /* Welcome.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Welcome.xib; sourceTree = "<group>"; };
@@ -101,7 +92,6 @@
 		7D46FEFC1F5E129700FEB0F8 /* XIBs */ = {
 			isa = PBXGroup;
 			children = (
-				7D564DC71F18441500B8AAD6 /* AboutWindow.xib */,
 				7D564DB41F18434F00B8AAD6 /* MainMenu.xib */,
 				7D75537E1F22E40E0010FE88 /* Preferences.xib */,
 				7D564DC91F18441500B8AAD6 /* Scan.xib */,
@@ -138,8 +128,6 @@
 				CD18CE4E21D74BDA00D968D6 /* NSApplicationKeyEvents.m */,
 				CDA6E641203B9DA700C78F91 /* WelcomeWindowController.h */,
 				CDA6E642203B9DA700C78F91 /* WelcomeWindowController.m */,
-				7D564DCF1F18441500B8AAD6 /* AboutWindowController.h */,
-				7D564DC31F18441500B8AAD6 /* AboutWindowController.m */,
 				7D75537C1F22E40E0010FE88 /* PrefsWindowController.h */,
 				7D75537D1F22E40E0010FE88 /* PrefsWindowController.m */,
 				7D564DD01F18441500B8AAD6 /* ScanRow.h */,
@@ -177,6 +165,9 @@
 		7D564DE21F18445400B8AAD6 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				CD18CE6B21DAD1F500D968D6 /* AboutWindow.xib */,
+				CD18CE6A21DAD1F400D968D6 /* AboutWindowController.h */,
+				CD18CE6C21DAD1F500D968D6 /* AboutWindowController.m */,
 				7D564DE31F18446200B8AAD6 /* consts.h */,
 				CD18CE5A21D8502F00D968D6 /* Update.h */,
 				CD18CE5B21D8502F00D968D6 /* Update.m */,
@@ -210,9 +201,8 @@
 			buildPhases = (
 				7D564DA51F18434F00B8AAD6 /* Sources */,
 				7D564DA71F18434F00B8AAD6 /* Resources */,
-				7DD25FEE1F23B5AE00277EC4 /* CopyFiles */,
-				7D16D6971F650FF400DB3161 /* ShellScript */,
 				CD32C22F209015E3009CADF6 /* Copy Frameworks */,
+				7D16D6971F650FF400DB3161 /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -243,7 +233,7 @@
 								enabled = 1;
 							};
 							com.apple.HardenedRuntime = {
-								enabled = 0;
+								enabled = 1;
 							};
 							com.apple.Sandbox = {
 								enabled = 1;
@@ -278,9 +268,9 @@
 				7D564DDD1F18441500B8AAD6 /* Scan.xib in Resources */,
 				7D46FF041F5F496800FEB0F8 /* patrons.txt in Resources */,
 				7D7553801F22E40E0010FE88 /* Preferences.xib in Resources */,
+				CD18CE6D21DAD1F500D968D6 /* AboutWindow.xib in Resources */,
 				7D564DD61F18441500B8AAD6 /* Assets.xcassets in Resources */,
 				CD18CE6021D8503000D968D6 /* UpdateWindow.xib in Resources */,
-				7D564DDC1F18441500B8AAD6 /* AboutWindow.xib in Resources */,
 				7D564DB61F18434F00B8AAD6 /* MainMenu.xib in Resources */,
 				CDA6E644203B9DA800C78F91 /* Welcome.xib in Resources */,
 			);
@@ -289,18 +279,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		7D16D6971F650FF400DB3161 /* ShellScript */ = {
+		7D16D6971F650FF400DB3161 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Run Script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#for normal builds\n# just copy into app\nrm -rf   $BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Library/LoginItems\nmkdir -p $BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Library/LoginItems\ncp -R -f \"$BUILT_PRODUCTS_DIR/ReiKey Helper.app\" $BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Library/LoginItems\n";
+			shellScript = "#archiving\nif [[ $BUILT_PRODUCTS_DIR = *\"ArchiveIntermediates\"* ]]; then\n\nmkdir -p $BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Library/LoginItems\ncp -R -f \"$PROJECT_TEMP_ROOT/UninstalledProducts/macosx/ReiKey Helper.app\" $BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Library/LoginItems\n\n#normal build\nelse\n\nrm -rf   $BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Library/LoginItems\nmkdir -p $BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Library/LoginItems\ncp -R -f \"$BUILT_PRODUCTS_DIR/ReiKey Helper.app\" $BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Library/LoginItems\n\nfi\n\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -318,8 +309,8 @@
 				7D564DD91F18441500B8AAD6 /* ScanWindowController.m in Sources */,
 				7D564DAE1F18434F00B8AAD6 /* AppDelegate.m in Sources */,
 				CDA6E648203B9DA800C78F91 /* WelcomeWindowController.m in Sources */,
-				7D564DDA1F18441500B8AAD6 /* AboutWindowController.m in Sources */,
 				7DD2BF651F1DC41600B33214 /* utilities.m in Sources */,
+				CD18CE6E21DAD1F500D968D6 /* AboutWindowController.m in Sources */,
 				7D75537F1F22E40E0010FE88 /* PrefsWindowController.m in Sources */,
 				CD18CE5F21D8503000D968D6 /* Update.m in Sources */,
 			);
@@ -396,6 +387,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INSTALL_PATH = /Applications;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -447,6 +439,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INSTALL_PATH = /Applications;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_CFLAGS = "-DMAIN_APP=1";
@@ -462,6 +455,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = VBG97UB4TA;
+				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../Carthage/Build/Mac";
 				INFOPLIST_FILE = mainApp/Info.plist;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
@@ -469,6 +463,7 @@
 				OTHER_LDFLAGS = "-Wl,-sectcreate,__RESTRICT,__restrict,/dev/null";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.objective-see.reikey";
 				PRODUCT_NAME = ReiKey;
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -480,6 +475,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = VBG97UB4TA;
+				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../Carthage/Build/Mac";
 				INFOPLIST_FILE = mainApp/Info.plist;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
@@ -487,6 +483,7 @@
 				OTHER_LDFLAGS = "-Wl,-sectcreate,__RESTRICT,__restrict,/dev/null";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.objective-see.reikey";
 				PRODUCT_NAME = ReiKey;
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};

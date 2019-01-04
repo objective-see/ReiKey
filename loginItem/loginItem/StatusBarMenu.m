@@ -70,9 +70,6 @@ enum menuItems
             
             //set 'showed popover' key
             [sharedDefaults setBool:YES forKey:SHOWED_POPUP];
-            
-            //sync
-            [sharedDefaults synchronize];
         }
         
         //set state based on (existing) preferences
@@ -83,14 +80,6 @@ enum menuItems
     }
     
     return self;
-}
-
--(void)toggle
-{
-    
-    
-    return;
-
 }
 
 //show popver
@@ -163,9 +152,6 @@ enum menuItems
 //menu handler
 -(void)handler:(id)sender
 {
-    //shared defaults
-    NSUserDefaults* sharedDefaults = nil;
-    
     //dbg msg
     logMsg(LOG_DEBUG, [NSString stringWithFormat:@"user clicked status menu item %lu", ((NSMenuItem*)sender).tag]);
     
@@ -185,15 +171,9 @@ enum menuItems
             //set menu state
             [self setState];
             
-            //load shared defaults
-            sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:SUITE_NAME];
-            
             //set 'disabled' key
-            [sharedDefaults setObject:[NSNumber numberWithBool:self.isDisabled] forKey:PREF_IS_DISABLED];
+            [[[NSUserDefaults alloc] initWithSuiteName:SUITE_NAME] setObject:[NSNumber numberWithBool:self.isDisabled] forKey:PREF_IS_DISABLED];
             
-            //sync
-            [sharedDefaults synchronize];
-        
             break;
             
         //scan
@@ -213,6 +193,7 @@ enum menuItems
             break;
             
         default:
+            
             break;
     }
 
@@ -225,17 +206,20 @@ bail:
 // logic based on 'isEnabled' iVar
 -(void)setState
 {
+    //status image
+    NSImage* statusImage = nil;
+    
     //dbg msg
     logMsg(LOG_DEBUG, [NSString stringWithFormat:@"setting state to: %@", (self.isDisabled) ? @"disabled" : @"enabled"]);
     
     //set to disabled
     if(YES == self.isDisabled)
     {
+        //set image
+        statusImage = [NSImage imageNamed:@"StatusInactive"];
+    
         //update status
         [self.statusItem.menu itemWithTag:status].title = @"ReiKey: disabled";
-        
-        //set icon
-        self.statusItem.button.image = [NSImage imageNamed:@"StatusInactive"];
         
         //change toggle text
         [self.statusItem.menu itemWithTag:toggle].title = @"Enable";
@@ -244,15 +228,21 @@ bail:
     //set to enabled
     else
     {
+        //set image
+        statusImage = [NSImage imageNamed:@"StatusActive"];
+        
         //update status
         [self.statusItem.menu itemWithTag:status].title = @"ReiKey: enabled";
-        
-        //set icon
-        self.statusItem.button.image = [NSImage imageNamed:@"StatusActive"];
         
         //change toggle text
         [self.statusItem.menu itemWithTag:toggle].title = @"Disable";
     }
+    
+    //set image size
+    statusImage.size = NSMakeSize(24.0, 24.0);
+    
+    //set icon
+    self.statusItem.button.image = statusImage;
     
     return;
 }

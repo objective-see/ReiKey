@@ -29,8 +29,8 @@
 //allow 3rd-party installed apps
 @property (weak) IBOutlet NSButton *runWithIcon;
 
-//support view
-@property (strong) IBOutlet NSView *supportView;
+//friends view
+@property (strong) IBOutlet NSView *friendsView;
 
 /* METHODS */
 

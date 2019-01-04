@@ -57,17 +57,6 @@ int main(int argc, const char * argv[])
         goto bail;
     }
     
-    //already running?
-    // bail, only want one instance
-    if(YES == isAppRunning([[NSBundle mainBundle] bundleIdentifier], YES))
-    {
-        //err msg
-        logMsg(LOG_DEBUG, @"an instance already running... exiting");
-        
-        //bail
-        goto bail;
-    }
-    
     //running non-cmdline mode
     // so, make foreground so app has an dock icon, etc
     transformApp(kProcessTransformToForegroundApplication);
