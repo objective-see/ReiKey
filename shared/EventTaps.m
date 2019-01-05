@@ -16,30 +16,6 @@
 
 @synthesize previousTaps;
 
-//init method
-// set some intial flags, init daemon comms, etc.
--(id)init
-{
-    //super
-    self = [super init];
-    if(self != nil)
-    {
-        /*
-        //alloc set
-        currentTaps = [NSMutableSet set];
-        
-        //init current taps
-        for(NSDictionary* tap in [self enumerate])
-        {
-            //add
-            [currentTaps addObject:tap[@"tapID"]];
-        }
-        */
-    }
- 
-    return self;
-}
-
 //enumerate event taps
 // activated keyboard taps
 -(NSMutableDictionary*)enumerate
@@ -189,28 +165,33 @@ bail:
     //register 'kCGNotifyEventTapAdded' notification
     notify_register_dispatch(kCGNotifyEventTapAdded, &notifyToken, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(int token) {
         
-        //grab current taps
-        // ...should now include any new ones
-        currentTaps = [self enumerate];
-        
-        //identify any new taps
-        // invoke callback for those...
-        for(NSNumber* tapID in currentTaps.allKeys)
+        //sync to assure thread safety
+        @synchronized(self)
         {
-            //not new?
-            if(nil != self.previousTaps[tapID])
+            //grab current taps
+            // ...should now include any new ones
+            currentTaps = [self enumerate];
+            
+            //identify any new taps
+            // invoke callback for those...
+            for(NSNumber* tapID in currentTaps.allKeys)
             {
-                //skip
-                continue;
+                //not new?
+                if(nil != self.previousTaps[tapID])
+                {
+                    //skip
+                    continue;
+                }
+                
+                //new!
+                callback(currentTaps[tapID]);
             }
             
-            //new!
-            callback(currentTaps[tapID]);
-        }
+            //update taps
+            self.previousTaps = currentTaps;
         
-        //update taps
-        self.previousTaps = currentTaps;
-        
+        } //sync
+    
     });
 
     //run loop
@@ -218,6 +199,5 @@ bail:
     
     return;
 }
-
 
 @end
