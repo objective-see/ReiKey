@@ -110,9 +110,7 @@
     NSUInteger action = 0;
     
     //dbg msg
-    #ifdef DEBUG
     logMsg(LOG_DEBUG, [NSString stringWithFormat:@"handling action click: %@", buttonTitle]);
-    #endif
     
     //Close/No?
     // close window and bail
@@ -482,7 +480,7 @@ bail:
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
         ^{
             //launch
-            startApplication([NSURL fileURLWithPath:[APPS_FOLDER stringByAppendingPathComponent:APP_NAME]], NSWorkspaceLaunchDefault);
+            startApplication([NSURL fileURLWithPath:appPath()], NSWorkspaceLaunchDefault);
             
             //exit
             [NSApp terminate:self];

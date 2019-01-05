@@ -45,17 +45,17 @@
 //flag for full uninstall
 #define UNINSTALL_FULL 1
 
-//applications location
-#define APPS_FOLDER @"/Applications"
+//system applications
+#define SYSTEM_APPS_FOLDER @"/Applications"
 
-//path to pkill
-#define PKILL @"/usr/bin/pkill"
+//user applications
+#define USER_APPS_FOLDER @"~/Applications"
+
+//path to killall
+#define KILL @"/usr/bin/killall"
 
 //path to xattr
 #define XATTR @"/usr/bin/xattr"
-
-//path to open
-#define OPEN @"/usr/bin/open"
 
 //suite name
 // for shared preferences

@@ -29,9 +29,7 @@
     if(ACTION_INSTALL == parameter)
     {
         //dbg msg
-        #ifdef DEBUG
         logMsg(LOG_DEBUG, @"installing...");
-        #endif
         
         //if already installed though
         // uninstall everything first...
@@ -41,9 +39,7 @@
             isUpgrade = YES;
             
             //dbg msg
-            #ifdef DEBUG
             logMsg(LOG_DEBUG, @"already installed, so stopping/uninstalling...");
-            #endif
             
             //stop
             // kill main app/login item
@@ -58,9 +54,7 @@
             }
             
             //dbg msg
-            #ifdef DEBUG
             logMsg(LOG_DEBUG, @"uninstalled");
-            #endif
             
             //nap
             // give time for login item etc to be killed
@@ -82,10 +76,8 @@
         if(YES == isUpgrade)
         {
             //dbg msg
-            #ifdef DEBUG
             logMsg(LOG_DEBUG, @"installed, now will start (login item)");
-            #endif
-            
+           
             //start
             if(YES != [self start])
             {
@@ -102,18 +94,14 @@
     else if(ACTION_UNINSTALL == parameter)
     {
         //dbg msg
-        #ifdef DEBUG
         logMsg(LOG_DEBUG, @"stopping login item");
-        #endif
         
         //stop
         // kill app and login item
         [self stop];
          
         //dbg msg
-        #ifdef DEBUG
         logMsg(LOG_DEBUG, @"uninstalling...");
-        #endif
         
         //uninstall
         if(YES != [self uninstall:UNINSTALL_FULL])
@@ -123,9 +111,7 @@
         }
         
         //dbg msg
-        #ifdef DEBUG
         logMsg(LOG_DEBUG, @"uninstalled!");
-        #endif
     }
 
     //no errors
@@ -157,10 +143,28 @@ bail:
     appPathSrc = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:APP_NAME];
     
     //set dest path
-    // /Applications/ReiKey.app
-    appPathDest = [APPS_FOLDER stringByAppendingPathComponent:APP_NAME];
+    appPathDest = appPath();
     
-    //move app into /Applications
+    //user install
+    // make sure ~/Applications exist
+    if( (0 != geteuid()) &&
+        (YES != [[NSFileManager defaultManager] fileExistsAtPath:[USER_APPS_FOLDER stringByExpandingTildeInPath]]) )
+    {
+        //create it
+        if(YES != [[NSFileManager defaultManager] createDirectoryAtPath:[USER_APPS_FOLDER stringByExpandingTildeInPath] withIntermediateDirectories:YES attributes:nil error:&error])
+        {
+            //err msg
+            logMsg(LOG_ERR, [NSString stringWithFormat:@"failed to create %@ (%@)", [USER_APPS_FOLDER stringByExpandingTildeInPath], error]);
+            
+            //bail
+            goto bail;
+        }
+        
+        //dbg msg
+        logMsg(LOG_DEBUG, [NSString stringWithFormat:@"created %@", [USER_APPS_FOLDER stringByExpandingTildeInPath]]);
+    }
+        
+    //move app to its destination
     if(YES != [[NSFileManager defaultManager] copyItemAtPath:appPathSrc toPath:appPathDest error:&error])
     {
         //err msg
@@ -171,17 +175,13 @@ bail:
     }
 
     //dbg msg
-    #ifdef DEBUG
     logMsg(LOG_DEBUG, [NSString stringWithFormat:@"copied %@ -> %@", appPathSrc, appPathDest]);
-    #endif
     
     //remove xattrs
-    execTask(XATTR, @[@"-cr", appPathDest]);
+    execTask(XATTR, @[@"-cr", appPathDest], YES);
     
     //dbg msg
-    #ifdef DEBUG
     logMsg(LOG_DEBUG, @"removed xattr");
-    #endif
     
     //no error
     wasInstalled = YES;
@@ -198,7 +198,7 @@ bail:
     NSString* loginItem = nil;
     
     //init path
-    loginItem = [[APPS_FOLDER stringByAppendingPathComponent:APP_NAME] stringByAppendingPathComponent:[NSString stringWithFormat:@"/Contents/Library/LoginItems/%@.app", LOGIN_ITEM_NAME]];
+    loginItem = [appPath() stringByAppendingPathComponent:[NSString stringWithFormat:@"/Contents/Library/LoginItems/%@.app", LOGIN_ITEM_NAME]];
     
     return startApplication([NSURL fileURLWithPath:loginItem], NSWorkspaceLaunchWithoutActivation);
 
@@ -208,10 +208,10 @@ bail:
 -(void)stop
 {
     //kill main app
-    execTask(PKILL, @[[APP_NAME stringByDeletingPathExtension]]);
+    execTask(KILL, @[[APP_NAME stringByDeletingPathExtension]], YES);
     
     //kill login item
-    execTask(PKILL, @[LOGIN_ITEM_NAME]);
+    execTask(KILL, @[LOGIN_ITEM_NAME], YES);
     
     return;
 }
@@ -228,25 +228,25 @@ bail:
     BOOL bAnyErrors = NO;
     
     //path to installed app
-    NSString* appPath = nil;
+    NSString* installedAppPath = nil;
     
     //path to login item
-    NSString* loginItem = nil;
+    NSString* installedLoginItem = nil;
     
     //error
     NSError* error = nil;
     
     //init path to installed app
-    appPath = [APPS_FOLDER stringByAppendingPathComponent:APP_NAME];
+    installedAppPath = appPath();
     
     //init path to login item
-    loginItem = [[APPS_FOLDER stringByAppendingPathComponent:APP_NAME] stringByAppendingPathComponent:[NSString stringWithFormat:@"/Contents/Library/LoginItems/%@.app", LOGIN_ITEM_NAME]];
+    installedLoginItem = [installedAppPath stringByAppendingPathComponent:[NSString stringWithFormat:@"/Contents/Library/LoginItems/%@.app", LOGIN_ITEM_NAME]];
     
     //delete app
-    if(YES != [[NSFileManager defaultManager] removeItemAtPath:appPath error:&error])
+    if(YES != [[NSFileManager defaultManager] removeItemAtPath:installedAppPath error:&error])
     {
         //err msg
-        logMsg(LOG_ERR, [NSString stringWithFormat:@"failed to delete app %@ (%@)", appPath, error]);
+        logMsg(LOG_ERR, [NSString stringWithFormat:@"failed to delete app %@ (%@)", installedAppPath, error]);
         
         //set flag
         bAnyErrors = YES;
@@ -256,16 +256,14 @@ bail:
     
     //unregister login item
     // don't care about error, cuz it might not be there (user prefs)
-    toggleLoginItem([NSURL fileURLWithPath:loginItem], ACTION_UNINSTALL);
+    toggleLoginItem([NSURL fileURLWithPath:installedLoginItem], ACTION_UNINSTALL);
     
     //full uninstall?
     // also remove preferences
     if(UNINSTALL_FULL == type)
     {
         //dbg msg
-        #ifdef DEBUG
         logMsg(LOG_DEBUG, @"full uninstall, so also deleting preferenences, etc...");
-        #endif
         
         //delete app prefs
         [[NSFileManager defaultManager] removeItemAtPath:[[@"~/Library/Containers/" stringByAppendingPathComponent:APP_BUNDLE_ID] stringByExpandingTildeInPath] error:&error];

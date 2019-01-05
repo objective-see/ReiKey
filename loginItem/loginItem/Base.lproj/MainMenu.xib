@@ -35,11 +35,7 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="Fqp-a2-Ay3"/>
-                <menuItem title="Quit" keyEquivalent="q" id="Kfe-9U-SfZ">
-                    <connections>
-                        <action selector="terminate:" target="-1" id="Les-Wu-end"/>
-                    </connections>
-                </menuItem>
+                <menuItem title="Quit" tag="104" keyEquivalent="q" id="Kfe-9U-SfZ"/>
             </items>
             <point key="canvasLocation" x="55" y="10"/>
         </menu>

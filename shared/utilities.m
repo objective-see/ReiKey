@@ -99,42 +99,12 @@ NSString* getAppVersion()
     return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
 }
 
-//get path to (main) app of a login item
-// login item is in app bundle, so parse up to get main app
-NSString* getMainAppPath()
-{
-    //path components
-    NSArray *pathComponents = nil;
-    
-    //path to config (main) app
-    NSString* mainApp = nil;
-    
-    //get path components
-    // then build full path to main app
-    pathComponents = [[[NSBundle mainBundle] bundlePath] pathComponents];
-    if(pathComponents.count > 4)
-    {
-        //init path to full (main) app
-        mainApp = [NSString pathWithComponents:[pathComponents subarrayWithRange:NSMakeRange(0, pathComponents.count - 4)]];
-    }
-    
-    //when (still) nil
-    // use default path
-    if(nil == mainApp)
-    {
-        //default
-        mainApp = [@"/Applications" stringByAppendingPathComponent:APP_NAME];
-    }
-    
-    return mainApp;
-}
-
 //determine if installed
-// simply checks if application exists in /Applications
+// simply checks if application exists in /Applications or ~/Applications
 BOOL isInstalled()
 {
-    //check if extension exists
-    return [[NSFileManager defaultManager] fileExistsAtPath:[APPS_FOLDER stringByAppendingPathComponent:APP_NAME]];
+    //check if exists
+    return [[NSFileManager defaultManager] fileExistsAtPath:appPath()];
 }
 
 
@@ -332,7 +302,7 @@ bail:
 #pragma clang diagnostic pop
 
 //exec a process
-BOOL execTask(NSString* binaryPath, NSArray* arguments)
+BOOL execTask(NSString* binaryPath, NSArray* arguments, BOOL wait)
 {
     //flag
     BOOL wasExec = NO;
@@ -354,9 +324,7 @@ BOOL execTask(NSString* binaryPath, NSArray* arguments)
     }
     
     //dbg msg
-    #ifdef DEBUG
     logMsg(LOG_DEBUG, [NSString stringWithFormat:@"@exec'ing %@ (args: %@)", binaryPath, arguments]);
-    #endif
     
     //wrap task launch
     @try
@@ -371,6 +339,13 @@ BOOL execTask(NSString* binaryPath, NSArray* arguments)
         
         //bail
         goto bail;
+    }
+    
+    //wait?
+    if(YES == wait)
+    {
+        //wait
+        [task waitUntilExit];
     }
     
     //happy
@@ -687,6 +662,32 @@ void makeModal(NSWindowController* windowController)
     }//until 1 second
     
     return;
+}
+
+//path to installed app
+// if admin: /Applications/<app name>
+// if user:  ~/Applications/<app name>
+NSString* appPath()
+{
+    //app path
+    NSString* appPath = nil;
+    
+    //admin:
+    // /Applications/<app name>
+    if(0 == geteuid())
+    {
+        //set path
+        appPath = [SYSTEM_APPS_FOLDER stringByAppendingPathComponent:APP_NAME];
+    }
+    //user:
+    // ~/Applications/<app name>
+    else
+    {
+        //set path
+        appPath = [[USER_APPS_FOLDER stringByExpandingTildeInPath] stringByAppendingPathComponent:APP_NAME];
+    }
+    
+    return appPath;
 }
 
 //path to login item

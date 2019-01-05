@@ -20,6 +20,7 @@ enum menuItems
     toggle,
     scan,
     preferences,
+    quit,
     end
 };
 
@@ -191,6 +192,15 @@ enum menuItems
             [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"reikey://preferences"]];
             
             break;
+            
+        //quit
+        case quit:
+            
+            //launch main app with 'close' parameter
+            [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"reikey://close"]];
+            
+            //exit self
+            [NSApp terminate:nil];
             
         default:
             

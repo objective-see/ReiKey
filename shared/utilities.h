@@ -20,17 +20,18 @@ void disableSTDERR(void);
 //init crash reporting
 void initCrashReporting(void);
 
-//get path to (main) app
-// login item is in app bundle, so parse up to get main app
-NSString* getMainAppPath(void);
-
 //get app's version
-// ->extracted from Info.plist
+// extracted from Info.plist
 NSString* getAppVersion(void);
 
 //determine if installed
-// simply checks if application exists in /Applications
+// simply checks if application exists in /Applications or ~/Applications
 BOOL isInstalled(void);
+
+//path to installed app
+// if admin: /Applications/<app name>
+// if user:  ~/Applications/<app name>
+NSString* appPath(void);
 
 //given a path to binary
 // parse it back up to find app's bundle
@@ -81,7 +82,7 @@ void makeModal(NSWindowController* windowController);
 pid_t findProcess(NSString* processName);
 
 //exec a process
-BOOL execTask(NSString* binaryPath, NSArray* arguments);
+BOOL execTask(NSString* binaryPath, NSArray* arguments, BOOL wait);
 
 //extract a DNS name
 NSMutableString* extractDNSName(unsigned char* start, unsigned char* chunk, unsigned char* end);

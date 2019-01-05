@@ -137,6 +137,13 @@ bail:
             //show
             [self showPreferences:nil];
         }
+        
+        //close?
+        else if(YES == [url.host isEqualToString:@"close"])
+        {
+            //bye!
+            [NSApp terminate:nil];
+        }
     }
     
     return;
