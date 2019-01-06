@@ -47,7 +47,7 @@
 
 //event taps
 // array used to populate table
-@property(nonatomic, retain)NSArray* eventTaps;
+@property(nonatomic, retain)NSMutableArray* eventTaps;
 
 //refresh/rescan button
 @property (weak) IBOutlet NSButton *rescan;
@@ -61,16 +61,8 @@
 //'scanning' activity message
 @property (weak) IBOutlet NSTextField *activityMessage;
 
-//table items
-// ->all rules
-@property(nonatomic, retain)NSMutableArray* rules;
-
-//table items
-// ->filtered rules
-@property(nonatomic, retain)NSMutableArray* rulesFiltered;
-
-//search box
-@property (weak) IBOutlet NSSearchField *searchBox;
+//scan results
+@property (weak) IBOutlet NSTextField *scanResults;
 
 //top level view
 @property (weak) IBOutlet NSView *view;
@@ -80,16 +72,6 @@
 
 //table view
 @property (weak) IBOutlet NSTableView *tableView;
-
-//panel for 'add rule'
-@property (weak) IBOutlet NSView *addRulePanel;
-
-//label for add rules button
-@property (weak) IBOutlet NSTextField *addRuleLabel;
-
-//button to add rules
-@property (weak) IBOutlet NSButton *addRuleButton;
-
 
 /* METHODS */
 

@@ -12,6 +12,7 @@
                 <outlet property="activityMessage" destination="FKP-Dh-JqV" id="MUK-eI-bWO"/>
                 <outlet property="overlay" destination="VUa-5Z-QAG" id="ehD-mE-boB"/>
                 <outlet property="rescan" destination="YLS-Ds-S1b" id="qf6-ex-wSf"/>
+                <outlet property="scanResults" destination="Zhm-cR-2X4" id="MXt-ia-fMX"/>
                 <outlet property="tableView" destination="rpa-sZ-jQp" id="SvF-Yi-OKB"/>
                 <outlet property="view" destination="se5-gp-TjO" id="wqw-Gz-fhe"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
@@ -22,7 +23,7 @@
         <window title="Keyboard Event Taps" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="F0z-JX-Cv5">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES"/>
             <rect key="contentRect" x="913" y="419" width="1100" height="600"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <value key="minSize" type="size" width="1000" height="600"/>
             <view key="contentView" wantsLayer="YES" id="se5-gp-TjO">
                 <rect key="frame" x="0.0" y="0.0" width="1100" height="600"/>
@@ -211,7 +212,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </progressIndicator>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FKP-Dh-JqV" userLabel="loading data">
-                                <rect key="frame" x="127" y="43" width="247" height="25"/>
+                                <rect key="frame" x="18" y="43" width="464" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="center" title="Enumerating Event Taps..." id="vD6-Bk-elz">
                                     <font key="font" size="13" name="Menlo-Bold"/>
@@ -247,8 +248,19 @@
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zp9-TZ-CWm" userLabel="loading data">
-                        <rect key="frame" x="47" y="6" width="202" height="25"/>
+                        <rect key="frame" x="47" y="5" width="202" height="25"/>
                         <textFieldCell key="cell" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="left" title="(re)scan" id="oLC-DJ-pUN">
+                            <font key="font" size="13" name="Menlo-Bold"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zhm-cR-2X4" userLabel="scan results">
+                        <rect key="frame" x="828" y="8" width="254" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="250" id="ykx-EX-MyH"/>
+                        </constraints>
+                        <textFieldCell key="cell" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="right" title="scan results..." id="KCq-Cy-GNa">
                             <font key="font" size="13" name="Menlo-Bold"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -258,21 +270,24 @@
                 <constraints>
                     <constraint firstItem="gth-To-Lf2" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" constant="-1" id="0Jc-HW-sRY"/>
                     <constraint firstAttribute="bottom" secondItem="gth-To-Lf2" secondAttribute="bottom" constant="41" id="1XM-Vv-cJW"/>
+                    <constraint firstAttribute="trailing" secondItem="Zhm-cR-2X4" secondAttribute="trailing" constant="20" id="9T7-n5-EsK"/>
                     <constraint firstItem="YLS-Ds-S1b" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" constant="2" id="BYz-X4-ucw"/>
                     <constraint firstAttribute="trailing" secondItem="gth-To-Lf2" secondAttribute="trailing" constant="-1" id="GjA-Ta-LSr"/>
                     <constraint firstItem="zp9-TZ-CWm" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" constant="49" id="Ij6-GT-NZH"/>
                     <constraint firstItem="17j-c5-vs7" firstAttribute="leading" secondItem="zp9-TZ-CWm" secondAttribute="trailing" constant="266" id="JGL-Ve-O5T"/>
                     <constraint firstAttribute="bottom" secondItem="YLS-Ds-S1b" secondAttribute="bottom" constant="2" id="JPI-T0-DXe"/>
                     <constraint firstItem="VUa-5Z-QAG" firstAttribute="centerX" secondItem="se5-gp-TjO" secondAttribute="centerX" id="Muu-cd-H1G"/>
-                    <constraint firstItem="zp9-TZ-CWm" firstAttribute="top" secondItem="gth-To-Lf2" secondAttribute="bottom" constant="10" id="Q2t-Fi-Nav"/>
+                    <constraint firstItem="zp9-TZ-CWm" firstAttribute="top" secondItem="gth-To-Lf2" secondAttribute="bottom" constant="11" id="Q2t-Fi-Nav"/>
                     <constraint firstItem="VUa-5Z-QAG" firstAttribute="centerY" secondItem="se5-gp-TjO" secondAttribute="centerY" id="SxS-6x-v32"/>
                     <constraint firstAttribute="bottom" secondItem="17j-c5-vs7" secondAttribute="bottom" constant="-1" id="VzL-ar-k8c"/>
                     <constraint firstItem="gth-To-Lf2" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" constant="-1" id="ehW-gX-Et6"/>
                     <constraint firstItem="YLS-Ds-S1b" firstAttribute="top" secondItem="gth-To-Lf2" secondAttribute="bottom" constant="1" id="gQH-g2-TCK"/>
                     <constraint firstAttribute="trailing" secondItem="gth-To-Lf2" secondAttribute="trailing" constant="-1" id="ga8-g4-rt6"/>
+                    <constraint firstItem="Zhm-cR-2X4" firstAttribute="centerY" secondItem="YLS-Ds-S1b" secondAttribute="centerY" constant="1" id="gjo-Lf-k5V"/>
                     <constraint firstItem="gth-To-Lf2" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" constant="-1" id="gtf-7O-hid"/>
                     <constraint firstItem="gth-To-Lf2" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" constant="-1" id="jrL-0c-zSr"/>
-                    <constraint firstAttribute="bottom" secondItem="zp9-TZ-CWm" secondAttribute="bottom" constant="6" id="u9i-KZ-es1"/>
+                    <constraint firstAttribute="bottom" secondItem="zp9-TZ-CWm" secondAttribute="bottom" constant="5" id="u9i-KZ-es1"/>
+                    <constraint firstItem="Zhm-cR-2X4" firstAttribute="top" secondItem="gth-To-Lf2" secondAttribute="bottom" constant="9" id="uHq-qL-8DW"/>
                     <constraint firstItem="17j-c5-vs7" firstAttribute="top" secondItem="gth-To-Lf2" secondAttribute="bottom" constant="4" id="utq-fB-Umn"/>
                     <constraint firstItem="17j-c5-vs7" firstAttribute="centerX" secondItem="VUa-5Z-QAG" secondAttribute="centerX" id="zub-Jb-Szy"/>
                 </constraints>

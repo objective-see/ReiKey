@@ -8,6 +8,7 @@
 
 #import "consts.h"
 #import "logging.h"
+#import "signing.h"
 #import "ScanRow.h"
 #import "utilities.h"
 #import "AppDelegate.h"
@@ -16,9 +17,7 @@
 @implementation ScanWindowController
 
 @synthesize tapID;
-@synthesize rules;
 @synthesize toolbar;
-@synthesize searchBox;
 @synthesize eventTaps;
 @synthesize eventTapsObj;
 
@@ -31,6 +30,9 @@
     
     //reload table to clear
     [self.tableView reloadData];
+    
+    //reset scan results msg
+    self.scanResults.stringValue = @"";
     
     //pre-req for color of overlay
     self.overlay.wantsLayer = YES;
@@ -48,6 +50,7 @@
         //set overlay's view color to gray
         self.overlay.layer.backgroundColor = NSColor.lightGrayColor.CGColor;
     }
+    
     //light mode
     // set overlay to gray
     else
@@ -59,8 +62,14 @@
     //disable scan button
     self.rescan.enabled = NO;
     
+    //set (default) scanning msg
+    self.activityMessage.stringValue = @"Enumerating Keyboard Event Taps...";
+    
     //show overlay
     self.overlay.hidden = NO;
+    
+    //show activity indicator
+    self.activityIndicator.hidden = NO;
     
     //start activity indicator
     [self.activityIndicator startAnimation:nil];
@@ -92,6 +101,12 @@
 // then reload table
 -(void)scan
 {
+    //tap
+    NSDictionary* eventTap = nil;
+    
+    //signing info
+    NSDictionary* signingInfo = nil;
+    
     //alloc/init event tap obj
     if(nil == self.eventTapsObj)
     {
@@ -99,8 +114,47 @@
         eventTapsObj = [[EventTaps alloc] init];
     }
     
+    //sync access to event taps
+    @synchronized (self.eventTaps)
+    {
+        
     //enumerate existing taps
-    self.eventTaps = [[eventTapsObj enumerate] allValues];
+    self.eventTaps = [[[eventTapsObj enumerate] allValues] mutableCopy];
+    
+    //ignore apple?
+    // remove any apple event taps
+    if(YES == [[[NSUserDefaults alloc] initWithSuiteName:SUITE_NAME] boolForKey:PREF_IGNORE_APPLE_BINS])
+    {
+        //remove any apple event taps
+        // iterate backwards so we can enumerate and remove at same time
+        for(NSInteger index = self.eventTaps.count-1; index >= 0; index--)
+        {
+            //tap
+            eventTap = self.eventTaps[index];
+            
+            //generate signing info
+            // first dynamically (via pid)
+            signingInfo = extractSigningInfo([eventTap[TAP_SOURCE_PID] intValue], nil, kSecCSDefaultFlags);
+            if(nil == signingInfo)
+            {
+                //extract signing info statically
+                signingInfo = extractSigningInfo(0, eventTap[TAP_SOURCE_PATH], kSecCSCheckAllArchitectures | kSecCSCheckNestedCode | kSecCSDoNotValidateResources);
+            }
+            
+            //remove if signed by apple
+            if( (noErr == [signingInfo[KEY_SIGNATURE_STATUS] intValue]) &&
+                (Apple == [signingInfo[KEY_SIGNATURE_SIGNER] intValue]) )
+            {
+                //dbg msg
+                logMsg(LOG_DEBUG, @"ingoring alert: preference set ('apple ignore') and tapping process is signed by apple");
+                
+                //remove
+                [self.eventTaps removeObjectAtIndex:index];
+            }
+        }
+    }
+        
+    } //sync
     
     //on main thread
     // show results (i.e. keyboard taps)
@@ -125,15 +179,45 @@
     //flag
     BOOL selectedRow = NO;
     
+    //enable scan button
+    self.rescan.enabled = YES;
+    
+    //hide activity indicator
+    self.activityIndicator.hidden = YES;
+    
+    //nothing found?
+    // just update overlay
+    if(0 == self.eventTaps.count)
+    {
+        //reload table to clear
+        [self.tableView reloadData];
+        
+        //ignore apple?
+        // set message about 3rd-party
+        if(YES == [[[NSUserDefaults alloc] initWithSuiteName:SUITE_NAME] boolForKey:PREF_IGNORE_APPLE_BINS])
+        {
+            //set msg
+            self.activityMessage.stringValue = @"No (3rd-party) Keyboard Event Taps Detected";
+        }
+        
+        //full scan
+        // set message about all
+        else
+        {
+            //set msg
+            self.activityMessage.stringValue = @"No Keyboard Event Taps Detected";
+        }
+        
+        //bail
+        goto bail;
+    }
+
     //hide overlay
     self.overlay.hidden = YES;
     
-    //enable scan button
-    self.rescan.enabled = YES;
-
     //reload table
     [self.tableView reloadData];
-    
+
     //was a tap id specified to select?
     if(nil != self.tapID)
     {
@@ -167,6 +251,11 @@
         //select first row
         [self.tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
     }
+    
+    //set message
+    self.scanResults.stringValue = [NSString stringWithFormat:@"detected: %lu event taps", self.eventTaps.count];
+    
+bail:
     
     return;
 }

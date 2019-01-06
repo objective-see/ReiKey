@@ -9,6 +9,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="PrefsWindowController">
             <connections>
                 <outlet property="generalView" destination="LMD-G7-TbA" id="Rwj-Ek-fqc"/>
+                <outlet property="ignoreAppleBinaries" destination="VjJ-hH-JvM" id="9tU-xU-Mrk"/>
                 <outlet property="noUpdates" destination="Ird-Mm-mPK" id="N1n-Bs-9TD"/>
                 <outlet property="runWithIcon" destination="eX5-VW-diC" id="WVn-Vh-haD"/>
                 <outlet property="startAtLogin" destination="lTh-XC-30k" id="F50-s1-FR8"/>
@@ -25,7 +26,7 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="F0z-JX-Cv5">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <rect key="contentRect" x="196" y="240" width="600" height="365"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" wantsLayer="YES" id="se5-gp-TjO">
                 <rect key="frame" x="0.0" y="0.0" width="600" height="365"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -65,7 +66,7 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="322"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <button fixedFrame="YES" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="lTh-XC-30k">
+                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lTh-XC-30k">
                     <rect key="frame" x="30" y="250" width="29" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="BW0-6E-VYb">
@@ -76,8 +77,8 @@
                         <action selector="toggle:" target="-2" id="bHq-wY-YNq"/>
                     </connections>
                 </button>
-                <button fixedFrame="YES" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="eX5-VW-diC">
-                    <rect key="frame" x="30" y="151" width="29" height="18"/>
+                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eX5-VW-diC">
+                    <rect key="frame" x="30" y="178" width="29" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="TKO-zc-4Wg">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -90,23 +91,23 @@
                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="445" translatesAutoresizingMaskIntoConstraints="NO" id="Xqm-Wl-cfD">
                     <rect key="frame" x="64" y="226" width="284" height="24"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Ensure that ReiKey is always running." id="tBe-6v-gDD">
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Ensures continual protection." id="tBe-6v-gDD">
                         <font key="font" size="12" name="Menlo-Regular"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="445" translatesAutoresizingMaskIntoConstraints="NO" id="v4h-tE-lF5">
-                    <rect key="frame" x="64" y="124" width="353" height="28"/>
+                    <rect key="frame" x="64" y="151" width="353" height="28"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Run ReiKey with an icon in the status bar menu." id="E5e-Fk-59l">
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Displays an icon the status bar menu." id="E5e-Fk-59l">
                         <font key="font" size="12" name="Menlo-Regular"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DMQ-Ij-DMM">
-                    <rect key="frame" x="64" y="147" width="399" height="28"/>
+                    <rect key="frame" x="64" y="174" width="399" height="28"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Run With Icon" id="6py-DZ-v9k">
                         <font key="font" size="17" name="Menlo-Bold"/>
@@ -123,6 +124,35 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VjJ-hH-JvM">
+                    <rect key="frame" x="30" y="107" width="29" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="oga-c9-MlU">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system" size="14"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="toggle:" target="-2" id="PrT-jc-bZe"/>
+                    </connections>
+                </button>
+                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="445" translatesAutoresizingMaskIntoConstraints="NO" id="Fx3-s4-wyZ">
+                    <rect key="frame" x="64" y="71" width="458" height="36"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Prevents system binaries from generating alerts and appearing in scan results." id="CB4-41-E6q">
+                        <font key="font" size="12" name="Menlo-Regular"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dxk-hg-c1j">
+                    <rect key="frame" x="64" y="103" width="399" height="28"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Ignore Apple Programs" id="njO-SW-rUE">
+                        <font key="font" size="17" name="Menlo-Bold"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
             </subviews>
             <point key="canvasLocation" x="146" y="907"/>
         </customView>
@@ -130,7 +160,7 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="322"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <button fixedFrame="YES" tag="8" translatesAutoresizingMaskIntoConstraints="NO" id="Ird-Mm-mPK">
+                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ird-Mm-mPK">
                     <rect key="frame" x="30" y="250" width="29" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="gVB-9C-tOU">

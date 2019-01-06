@@ -9,6 +9,7 @@
 #import <notify.h>
 
 #import "consts.h"
+#import "logging.h"
 #import "utilities.h"
 #import "EventTaps.h"
 
@@ -183,7 +184,23 @@ bail:
                     continue;
                 }
                 
-                //new!
+                //wait a few seconds and recheck
+                // a lot of notifications seem temporary (i.e. vmware)
+                [NSThread sleepForTimeInterval:3.0f];
+                
+                //(re)enumerate
+                // ignore if the tap went away
+                if(YES != [[[self enumerate] allKeys] containsObject:tapID])
+                {
+                    //dbg msg
+                    logMsg(LOG_DEBUG, [NSString stringWithFormat:@"tap %@, was temporary, so ignoring", currentTaps[tapID]]);
+                    
+                    //skip
+                    continue;
+                }
+                
+                //new
+                // and not temporary...
                 callback(currentTaps[tapID]);
             }
             

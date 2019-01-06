@@ -112,6 +112,10 @@
 // run with icon
 #define PREF_RUN_WITH_ICON @"runWithIcon"
 
+//prefs
+// ignore apple binaries
+#define PREF_IGNORE_APPLE_BINS @"ignoreAppleBins"
+
 //pref
 // disable update check
 #define PREF_NO_UPDATES @"noUpdates"
@@ -158,5 +162,23 @@
 
 //update new version
 #define UPDATE_NEW_VERSION 1
+
+//signers
+enum Signer{None, Apple, AppStore, DevID, AdHoc};
+
+//signature status
+#define KEY_SIGNATURE_STATUS @"signatureStatus"
+
+//signer
+#define KEY_SIGNATURE_SIGNER @"signatureSigner"
+
+//signing auths
+#define KEY_SIGNATURE_AUTHORITIES @"signatureAuthorities"
+
+//code signing id
+#define KEY_SIGNATURE_IDENTIFIER @"signatureIdentifier"
+
+//entitlements
+#define KEY_SIGNATURE_ENTITLEMENTS @"signatureEntitlements"
 
 #endif /* const_h */

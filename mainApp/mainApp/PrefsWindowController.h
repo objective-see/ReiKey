@@ -34,6 +34,9 @@
 //'run with icon' button
 @property (weak) IBOutlet NSButton *runWithIcon;
 
+//'ignore apple programs' button
+@property (weak) IBOutlet NSButton *ignoreAppleBinaries;
+
 //disable automatic update check
 @property (weak) IBOutlet NSButton *noUpdates;
 

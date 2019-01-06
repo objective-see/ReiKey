@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
     </dependencies>
     <objects>
@@ -22,7 +23,7 @@
                             <menuItem title="Scan..." id="8uW-fm-EDz">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="reScan:" target="-1" id="2Hi-q7-8zo"/>
+                                    <action selector="showScan:" target="Voe-Tx-rLC" id="67u-ok-zW4"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Preferences..." id="nwx-Qf-8X8">

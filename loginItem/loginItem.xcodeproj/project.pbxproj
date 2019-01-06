@@ -21,6 +21,7 @@
 		CD22785E20434CAC00C72C76 /* StatusBarPopover.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD22785B20434CAB00C72C76 /* StatusBarPopover.xib */; };
 		CD22785F20434CAC00C72C76 /* StatusBarPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD22785D20434CAB00C72C76 /* StatusBarPopoverController.m */; };
 		CD24D22021DEC35800E5CB14 /* Sentry.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = CD24D21E21DEC30100E5CB14 /* Sentry.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CD24D22621E13A1E00E5CB14 /* signing.m in Sources */ = {isa = PBXBuildFile; fileRef = CD24D22421E13A1D00E5CB14 /* signing.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -65,6 +66,8 @@
 		CD22785C20434CAB00C72C76 /* StatusBarPopoverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusBarPopoverController.h; sourceTree = "<group>"; };
 		CD22785D20434CAB00C72C76 /* StatusBarPopoverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusBarPopoverController.m; sourceTree = "<group>"; };
 		CD24D21E21DEC30100E5CB14 /* Sentry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sentry.framework; path = ../Carthage/Build/Mac/Sentry.framework; sourceTree = "<group>"; };
+		CD24D22421E13A1D00E5CB14 /* signing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = signing.m; path = ../shared/signing.m; sourceTree = "<group>"; };
+		CD24D22521E13A1D00E5CB14 /* signing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = signing.h; path = ../shared/signing.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -79,6 +82,7 @@
 		7D3B75201F13356900568828 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				7D3B75221F13357D00568828 /* consts.h */,
 				CD18CE6221D8504100D968D6 /* Update.h */,
 				CD18CE6321D8504100D968D6 /* Update.m */,
 				CD18CE6521D8504100D968D6 /* UpdateWindow.xib */,
@@ -86,11 +90,12 @@
 				CD18CE6621D8504100D968D6 /* UpdateWindowController.m */,
 				CD18CE3021D43ED500D968D6 /* EventTaps.h */,
 				CD18CE2F21D43ED500D968D6 /* EventTaps.m */,
-				7D5C5F501F200B9200C0E94A /* utilities.h */,
-				7D5C5F511F200B9200C0E94A /* utilities.m */,
-				7D3B75221F13357D00568828 /* consts.h */,
+				CD24D22521E13A1D00E5CB14 /* signing.h */,
+				CD24D22421E13A1D00E5CB14 /* signing.m */,
 				7D3B75231F13357D00568828 /* logging.m */,
 				7D3B75241F13357D00568828 /* logging.h */,
+				7D5C5F501F200B9200C0E94A /* utilities.h */,
+				7D5C5F511F200B9200C0E94A /* utilities.m */,
 			);
 			name = Shared;
 			sourceTree = "<group>";
@@ -235,6 +240,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD18CE3121D43ED500D968D6 /* EventTaps.m in Sources */,
+				CD24D22621E13A1E00E5CB14 /* signing.m in Sources */,
 				7D3B75141F13354900568828 /* StatusBarMenu.m in Sources */,
 				7D7755EB1F02E05B00D0017D /* main.m in Sources */,
 				CD18CE6921D8504100D968D6 /* UpdateWindowController.m in Sources */,

@@ -9,6 +9,7 @@
 #import "consts.h"
 #import "Update.h"
 #import "logging.h"
+#import "signing.h"
 #import "EventTaps.h"
 #import "utilities.h"
 #import "AppDelegate.h"
@@ -83,6 +84,9 @@
         //prev tap
         __block NSDictionary* previousTap = nil;
         
+        //signing info
+        __block NSDictionary* signingInfo = nil;
+        
         //start listening
         // show alert when new tap detected
         // ...unless user has disabled the app or same process
@@ -113,7 +117,32 @@
                 return;
             }
             
-            //alert
+            //ignore apple?
+            // and tapping process is apple?
+            if(YES == [[[NSUserDefaults alloc] initWithSuiteName:SUITE_NAME] boolForKey:PREF_IGNORE_APPLE_BINS])
+            {
+                //generate signing info
+                // first dynamically (via pid)
+                signingInfo = extractSigningInfo([tap[TAP_SOURCE_PID] intValue], nil, kSecCSDefaultFlags);
+                if(nil == signingInfo)
+                {
+                    //extract signing info statically
+                    signingInfo = extractSigningInfo(0, tap[TAP_SOURCE_PATH], kSecCSCheckAllArchitectures | kSecCSCheckNestedCode | kSecCSDoNotValidateResources);
+                }
+                
+                //ignore is signed by apple
+                if( (noErr == [signingInfo[KEY_SIGNATURE_STATUS] intValue]) &&
+                    (Apple == [signingInfo[KEY_SIGNATURE_SIGNER] intValue]) )
+                {
+                    //dbg msg
+                    logMsg(LOG_DEBUG, @"ingoring alert: preference set ('apple ignore') and tapping process is signed by apple");
+                    
+                    //ignore
+                    return;
+                }
+            }
+        
+            //ok, show alert!
             [self showAlert:tap];
             
             //add and remove any old/dead pids

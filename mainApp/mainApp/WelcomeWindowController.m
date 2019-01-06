@@ -72,6 +72,9 @@
         
         //set 'run with icon'
         [sharedDefaults setBool:(BOOL)self.runWithIcon.state forKey:PREF_RUN_WITH_ICON];
+        
+        //set 'ignore apple programs'
+        [sharedDefaults setBool:(BOOL)self.ignoreAppleBinaries.state forKey:PREF_IGNORE_APPLE_BINS];
 
         //act on 'start at login'
         if(NSControlStateValueOn == self.startAtLogin.state)

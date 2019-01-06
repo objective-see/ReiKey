@@ -29,6 +29,9 @@
 //allow 3rd-party installed apps
 @property (weak) IBOutlet NSButton *runWithIcon;
 
+//'ignore apple programs' button
+@property (weak) IBOutlet NSButton *ignoreAppleBinaries;
+
 //friends view
 @property (strong) IBOutlet NSView *friendsView;
 

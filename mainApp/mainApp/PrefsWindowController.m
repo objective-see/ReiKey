@@ -54,6 +54,9 @@
     //set 'run with icon' button state
     self.runWithIcon.state = [sharedDefaults boolForKey:PREF_RUN_WITH_ICON];
     
+    //set 'ingore apple binaries' button state
+    self.ignoreAppleBinaries.state = [sharedDefaults boolForKey:PREF_IGNORE_APPLE_BINS];
+    
     //set 'disable update check' button state
     self.noUpdates.state = [sharedDefaults boolForKey:PREF_NO_UPDATES];
     
@@ -141,9 +144,6 @@
     // toggle login item state
     if(sender == self.startAtLogin)
     {
-        //enable/disable
-        //SMLoginItemSetEnabled((__bridge CFStringRef)LOGIN_ITEM, (Boolean)self.startAtLogin.state);
-        
         //grab state
         // dispatch (below) execs code on bg
         buttonState = (NSInteger)self.startAtLogin.state;
@@ -162,6 +162,7 @@
         //set 'start at login'
         [sharedDefaults setBool:(BOOL)self.startAtLogin.state forKey:PREF_START_AT_LOGIN];
     }
+    
     //'run with icon'
     // restart login item...
     else if(sender == self.runWithIcon)
@@ -172,6 +173,14 @@
         //broadcast notification
         // tells login item to hide/show icon
         [[NSDistributedNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_PREFS_CHANGED object:nil userInfo:nil deliverImmediately:YES];
+    }
+    
+    //'ignore apple binaries'
+    // ...just set preference
+    else if(sender == self.ignoreAppleBinaries)
+    {
+        //set 'run with icon'
+        [sharedDefaults setBool:(BOOL)self.ignoreAppleBinaries.state forKey:PREF_IGNORE_APPLE_BINS];
     }
     
     //'disable update checks'
