@@ -187,6 +187,9 @@ bail:
                     continue;
                 }
                 
+                //dbg msg
+                logMsg(LOG_DEBUG, [NSString stringWithFormat:@"kCGNotifyEventTapAdded fired (new tap: %@)", currentTaps[tapID]]);
+                
                 //wait a few seconds and recheck
                 // a lot of notifications seem temporary (i.e. vmware)
                 [NSThread sleepForTimeInterval:5.0f];
