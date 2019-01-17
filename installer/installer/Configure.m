@@ -78,8 +78,8 @@
             //dbg msg
             logMsg(LOG_DEBUG, @"installed, now will enabled/start (login item)");
             
-            //enable
-            toggleLoginItem([NSURL fileURLWithPath: appPath()], ACTION_INSTALL);
+            //enable login item
+            toggleLoginItem([NSURL fileURLWithPath:[appPath() stringByAppendingPathComponent:[NSString stringWithFormat:@"/Contents/Library/LoginItems/%@.app", LOGIN_ITEM_NAME]]], ACTION_INSTALL);
            
             //start
             if(YES != [self start])
