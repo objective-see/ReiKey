@@ -412,4 +412,134 @@ bail:
     return rowView;
 }
 
+//customize menu
+// set 'show'/'ingore' depending on user prefs for item
+- (void)menuNeedsUpdate:(NSMenu *)menu
+{
+    //index
+    NSInteger row = -1;
+    
+    //shared defaults
+    NSUserDefaults* sharedDefaults = nil;
+    
+    //muted items
+    NSArray* mutedItems = nil;
+    
+    //event tap
+    NSMutableDictionary* eventTap = nil;
+    
+    //grab row
+    row = self.tableView.clickedRow;
+    if( (-1 == row) ||
+        (self.eventTaps.count <= row) )
+    {
+        //bail
+        goto bail;
+    }
+    
+    //extract event tap
+    eventTap = self.eventTaps[row];
+    
+    //load shared defaults
+    sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:SUITE_NAME];
+    
+    //extract muted items (paths)
+    mutedItems = [sharedDefaults arrayForKey:MUTED_ITEMS];
+    
+    //muted?
+    if(YES == [mutedItems containsObject:eventTap[TAP_SOURCE_PATH]])
+    {
+        //set to 'show'
+        // allows user to toggle
+        menu.itemArray.firstObject.title = @"Show Alerts";
+    }
+    
+    //not muted
+    else
+    {
+        //set to 'ignore'
+        // allows user to toggle
+        menu.itemArray.firstObject.title = @"Ignore Alerts";
+    }
+    
+bail:
+    
+    return;
+}
+
+//menu handler
+- (IBAction)menuHandler:(id)sender
+{
+    //index
+    NSInteger row = -1;
+    
+    //event tap
+    NSMutableDictionary* eventTap = nil;
+    
+    //shared defaults
+    NSUserDefaults* sharedDefaults = nil;
+    
+    //muted items
+    NSMutableArray* mutedItems = nil;
+    
+    //grab row
+    row = self.tableView.clickedRow;
+    if( (-1 == row) ||
+        (self.eventTaps.count <= row) )
+    {
+        //bail
+        goto bail;
+    }
+    
+    //extract event tap
+    eventTap = self.eventTaps[row];
+    
+    //load shared defaults
+    sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:SUITE_NAME];
+    
+    //extract muted items (paths)
+    mutedItems = [[sharedDefaults arrayForKey:MUTED_ITEMS] mutableCopy];
+    
+    //toggle mute/show alerts
+    if(MENU_ITEM_ACTION == ((NSMenuItem*)sender).tag)
+    {
+        //currently muted?
+        // remove from list of muted items (paths)
+        if(YES == [mutedItems containsObject:eventTap[TAP_SOURCE_PATH]])
+        {
+            //remove
+            [mutedItems removeObject:eventTap[TAP_SOURCE_PATH]];
+        }
+        //currently unmuted
+        // add to list of muted items (paths)
+        else
+        {
+            //first time
+            // alloc array for list
+            if(nil == mutedItems)
+            {
+                //alloc
+                mutedItems = [NSMutableArray array];
+            }
+            
+            //add
+            [mutedItems addObject:eventTap[TAP_SOURCE_PATH]];
+        }
+        
+        //save
+        [sharedDefaults setObject:mutedItems forKey:MUTED_ITEMS];
+    }
+    
+    //show in finder
+    else if(MENU_ITEM_SHOW_IN_FINDER == ((NSMenuItem*)sender).tag)
+    {
+        //open in finder
+        [[NSWorkspace sharedWorkspace] selectFile:eventTap[TAP_SOURCE_PATH] inFileViewerRootedAtPath:@""];
+    }
+    
+bail:
+    
+    return;
+}
+
 @end

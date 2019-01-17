@@ -18,17 +18,11 @@
 //id (tag) for detailed text in category table
 #define TABLE_ROW_SUB_TEXT_TAG 101
 
-//id (tag) for delete button
-#define TABLE_ROW_DELETE_TAG 110
+//menu item for mute/unmute
+#define MENU_ITEM_ACTION 0
 
-//menu item for block
-#define MENU_ITEM_BLOCK 0
-
-//menu item for allow
-#define MENU_ITEM_ALLOW 1
-
-//menu item for delete
-#define MENU_ITEM_DELETE 2
+//menu item for show in finder
+#define MENU_ITEM_SHOW_IN_FINDER 1
 
 /* INTERFACE */
 

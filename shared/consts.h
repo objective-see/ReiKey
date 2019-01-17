@@ -73,6 +73,9 @@
 //showed status bar popup
 #define SHOWED_POPUP @"showedPopup"
 
+//muted items (paths)
+#define MUTED_ITEMS @"mutedItems"
+
 //prefs changed notification
 #define NOTIFICATION_PREFS_CHANGED @"com.objective-see.reikey.preferences"
 

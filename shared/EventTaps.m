@@ -144,6 +144,9 @@ bail:
     {
         //free
         free(taps);
+        
+        //unset
+        taps = NULL;
     }
     
     return keyboardTaps;
@@ -186,7 +189,7 @@ bail:
                 
                 //wait a few seconds and recheck
                 // a lot of notifications seem temporary (i.e. vmware)
-                [NSThread sleepForTimeInterval:3.0f];
+                [NSThread sleepForTimeInterval:5.0f];
                 
                 //(re)enumerate
                 // ignore if the tap went away

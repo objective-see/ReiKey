@@ -77,10 +77,10 @@
 		CD18CE5A21D8502F00D968D6 /* Update.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Update.h; path = ../shared/Update.h; sourceTree = "<group>"; };
 		CD18CE5B21D8502F00D968D6 /* Update.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Update.m; path = ../shared/Update.m; sourceTree = "<group>"; };
 		CD18CE5C21D8502F00D968D6 /* UpdateWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdateWindowController.h; path = ../shared/UpdateWindowController.h; sourceTree = "<group>"; };
-		CD18CE5D21D8502F00D968D6 /* UpdateWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UpdateWindow.xib; path = ../shared/UpdateWindow.xib; sourceTree = "<group>"; };
+		CD18CE5D21D8502F00D968D6 /* UpdateWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UpdateWindow.xib; path = ../../shared/UpdateWindow.xib; sourceTree = "<group>"; };
 		CD18CE5E21D8503000D968D6 /* UpdateWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateWindowController.m; path = ../shared/UpdateWindowController.m; sourceTree = "<group>"; };
 		CD18CE6A21DAD1F400D968D6 /* AboutWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutWindowController.h; path = ../shared/AboutWindowController.h; sourceTree = "<group>"; };
-		CD18CE6B21DAD1F500D968D6 /* AboutWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AboutWindow.xib; path = ../shared/AboutWindow.xib; sourceTree = "<group>"; };
+		CD18CE6B21DAD1F500D968D6 /* AboutWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AboutWindow.xib; path = ../../shared/AboutWindow.xib; sourceTree = "<group>"; };
 		CD18CE6C21DAD1F500D968D6 /* AboutWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutWindowController.m; path = ../shared/AboutWindowController.m; sourceTree = "<group>"; };
 		CD21501720AD222800CEF17B /* Sentry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sentry.framework; path = ../Carthage/Build/Mac/Sentry.framework; sourceTree = "<group>"; };
 		CD24D22121E13A0700E5CB14 /* signing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = signing.m; path = ../shared/signing.m; sourceTree = "<group>"; };
@@ -96,8 +96,10 @@
 			isa = PBXGroup;
 			children = (
 				7D564DB41F18434F00B8AAD6 /* MainMenu.xib */,
+				CD18CE6B21DAD1F500D968D6 /* AboutWindow.xib */,
 				7D75537E1F22E40E0010FE88 /* Preferences.xib */,
 				7D564DC91F18441500B8AAD6 /* Scan.xib */,
+				CD18CE5D21D8502F00D968D6 /* UpdateWindow.xib */,
 				CDA6E63B203B9DA700C78F91 /* Welcome.xib */,
 			);
 			name = XIBs;
@@ -169,12 +171,10 @@
 			isa = PBXGroup;
 			children = (
 				7D564DE31F18446200B8AAD6 /* consts.h */,
-				CD18CE6B21DAD1F500D968D6 /* AboutWindow.xib */,
 				CD18CE6A21DAD1F400D968D6 /* AboutWindowController.h */,
 				CD18CE6C21DAD1F500D968D6 /* AboutWindowController.m */,
 				CD18CE5A21D8502F00D968D6 /* Update.h */,
 				CD18CE5B21D8502F00D968D6 /* Update.m */,
-				CD18CE5D21D8502F00D968D6 /* UpdateWindow.xib */,
 				CD18CE5C21D8502F00D968D6 /* UpdateWindowController.h */,
 				CD18CE5E21D8503000D968D6 /* UpdateWindowController.m */,
 				CD18CE2D21D43EA300D968D6 /* EventTaps.h */,

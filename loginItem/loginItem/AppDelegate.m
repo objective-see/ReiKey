@@ -105,6 +105,16 @@
                 return;
             }
             
+            //muted process?
+            if(YES == [[[[NSUserDefaults alloc] initWithSuiteName:SUITE_NAME] arrayForKey:MUTED_ITEMS] containsObject:tap[TAP_SOURCE_PATH]])
+            {
+                //dbg msg
+                logMsg(LOG_DEBUG, @"ingoring alert: tapping process has been muted");
+                
+                //ignore
+                return;
+            }
+        
             //seen before (for same proc)?
             previousTap = self.alerts[tap[TAP_SOURCE_PID]];
             if( (nil != previousTap) &&

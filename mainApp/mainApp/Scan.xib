@@ -6,7 +6,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="RulesWindowController">
+        <customObject id="-2" userLabel="File's Owner" customClass="ScanWindowController">
             <connections>
                 <outlet property="activityIndicator" destination="XFi-AG-WZ4" id="Csa-AH-n3H"/>
                 <outlet property="activityMessage" destination="FKP-Dh-JqV" id="MUK-eI-bWO"/>
@@ -23,7 +23,7 @@
         <window title="Keyboard Event Taps" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="F0z-JX-Cv5">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES"/>
             <rect key="contentRect" x="913" y="419" width="1100" height="600"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <rect key="screenRect" x="1440" y="213" width="2560" height="1417"/>
             <value key="minSize" type="size" width="1000" height="600"/>
             <view key="contentView" wantsLayer="YES" id="se5-gp-TjO">
                 <rect key="frame" x="0.0" y="0.0" width="1100" height="600"/>
@@ -187,6 +187,7 @@
                                     <connections>
                                         <outlet property="dataSource" destination="-2" id="cSg-At-Ff8"/>
                                         <outlet property="delegate" destination="-2" id="gZb-ih-AfV"/>
+                                        <outlet property="menu" destination="5kI-6e-uo9" id="jGc-Vs-kFh"/>
                                     </connections>
                                 </tableView>
                             </subviews>
@@ -297,9 +298,29 @@
             </connections>
             <point key="canvasLocation" x="116" y="331"/>
         </window>
+        <menu id="5kI-6e-uo9">
+            <items>
+                <menuItem title="Ignore Alerts" id="Ics-PA-BQj">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="menuHandler:" target="-2" id="AcQ-qC-iYd"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Show in Finder" tag="1" id="Uja-vY-kFJ">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="menuHandler:" target="-2" id="pDA-xA-LXf"/>
+                    </connections>
+                </menuItem>
+            </items>
+            <connections>
+                <outlet property="delegate" destination="-2" id="U6R-ab-1dj"/>
+            </connections>
+            <point key="canvasLocation" x="-383" y="-79"/>
+        </menu>
     </objects>
     <resources>
-        <image name="NSColorPanel" width="128" height="128"/>
+        <image name="NSColorPanel" width="32" height="32"/>
         <image name="Refresh" width="768" height="768"/>
         <image name="ReiKeyText" width="1365" height="374"/>
     </resources>
