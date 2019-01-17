@@ -103,8 +103,32 @@ NSString* getAppVersion()
 // simply checks if application exists in /Applications or ~/Applications
 BOOL isInstalled()
 {
-    //check if exists
-    return [[NSFileManager defaultManager] fileExistsAtPath:appPath()];
+    //flag
+    BOOL isInstalled = NO;
+    
+    //check ~/Applications
+    if(YES == [[NSFileManager defaultManager] fileExistsAtPath:[[USER_APPS_FOLDER stringByExpandingTildeInPath] stringByAppendingPathComponent:APP_NAME]])
+    {
+        //set flag
+        isInstalled = YES;
+        
+        //done
+        goto bail;
+    }
+    
+    //also check /Applications
+    if(YES == [[NSFileManager defaultManager] fileExistsAtPath:[SYSTEM_APPS_FOLDER stringByAppendingPathComponent:APP_NAME]])
+    {
+        //set flag
+        isInstalled = YES;
+        
+        //done
+        goto bail;
+    }
+
+bail:
+               
+    return isInstalled;
 }
 
 
@@ -672,20 +696,18 @@ NSString* appPath()
     //app path
     NSString* appPath = nil;
     
-    //admin:
-    // /Applications/<app name>
-    if(0 == geteuid())
+    //default to /Applications
+    appPath = [SYSTEM_APPS_FOLDER stringByAppendingPathComponent:APP_NAME];
+
+    //can't write to /Applications?
+    // fall back to user's ~/Applications directory
+    if(YES != [[NSFileManager defaultManager] isWritableFileAtPath:SYSTEM_APPS_FOLDER])
     {
-        //set path
-        appPath = [SYSTEM_APPS_FOLDER stringByAppendingPathComponent:APP_NAME];
-    }
-    //user:
-    // ~/Applications/<app name>
-    else
-    {
-        //set path
+        //set to ~/Applications
         appPath = [[USER_APPS_FOLDER stringByExpandingTildeInPath] stringByAppendingPathComponent:APP_NAME];
     }
+
+bail:
     
     return appPath;
 }

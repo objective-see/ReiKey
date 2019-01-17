@@ -76,7 +76,10 @@
         if(YES == isUpgrade)
         {
             //dbg msg
-            logMsg(LOG_DEBUG, @"installed, now will start (login item)");
+            logMsg(LOG_DEBUG, @"installed, now will enabled/start (login item)");
+            
+            //enable
+            toggleLoginItem([NSURL fileURLWithPath: appPath()], ACTION_INSTALL);
            
             //start
             if(YES != [self start])
@@ -123,7 +126,7 @@ bail:
 }
 
 //install
-// copy to /Applications
+// copy to /Applications or ~/Applications
 -(BOOL)install
 {
     //return/status var
@@ -145,9 +148,9 @@ bail:
     //set dest path
     appPathDest = appPath();
     
-    //user install
-    // make sure ~/Applications exist
-    if( (0 != geteuid()) &&
+    //user install?
+    // make sure ~/Applications folder exist
+    if( (YES != [[NSFileManager defaultManager] isWritableFileAtPath:SYSTEM_APPS_FOLDER]) &&
         (YES != [[NSFileManager defaultManager] fileExistsAtPath:[USER_APPS_FOLDER stringByExpandingTildeInPath]]) )
     {
         //create it
@@ -230,33 +233,65 @@ bail:
     //path to installed app
     NSString* installedAppPath = nil;
     
-    //path to login item
-    NSString* installedLoginItem = nil;
-    
     //error
     NSError* error = nil;
     
     //init path to installed app
-    installedAppPath = appPath();
+    installedAppPath = [SYSTEM_APPS_FOLDER stringByAppendingPathComponent:APP_NAME];
     
-    //init path to login item
-    installedLoginItem = [installedAppPath stringByAppendingPathComponent:[NSString stringWithFormat:@"/Contents/Library/LoginItems/%@.app", LOGIN_ITEM_NAME]];
-    
-    //delete app
-    if(YES != [[NSFileManager defaultManager] removeItemAtPath:installedAppPath error:&error])
+    //first,
+    //try remove app from default location (/Applications)
+    if( (YES == [[NSFileManager defaultManager] fileExistsAtPath:installedAppPath]) &&
+        (YES == [[NSFileManager defaultManager] isWritableFileAtPath:installedAppPath]) )
     {
-        //err msg
-        logMsg(LOG_ERR, [NSString stringWithFormat:@"failed to delete app %@ (%@)", installedAppPath, error]);
+        //unregister login item
+        // don't care about error, cuz it might not be there (user prefs)
+        toggleLoginItem([NSURL fileURLWithPath: [installedAppPath stringByAppendingPathComponent:[NSString stringWithFormat:@"/Contents/Library/LoginItems/%@.app", LOGIN_ITEM_NAME]]], ACTION_UNINSTALL);
         
-        //set flag
-        bAnyErrors = YES;
-        
-        //keep uninstalling...
+        //delete app
+        if(YES != [[NSFileManager defaultManager] removeItemAtPath:installedAppPath error:&error])
+        {
+            //err msg
+            logMsg(LOG_ERR, [NSString stringWithFormat:@"failed to delete app %@ (%@)", installedAppPath, error]);
+            
+            //set flag
+            bAnyErrors = YES;
+            
+            //keep uninstalling...
+        }
     }
     
-    //unregister login item
-    // don't care about error, cuz it might not be there (user prefs)
-    toggleLoginItem([NSURL fileURLWithPath:installedLoginItem], ACTION_UNINSTALL);
+    //(re)init path to installed app
+    installedAppPath = [[USER_APPS_FOLDER stringByExpandingTildeInPath] stringByAppendingPathComponent:APP_NAME];
+    
+    //also check if in ~/Applications
+    // and if so, remove it from there too
+    if(YES == [[NSFileManager defaultManager] fileExistsAtPath:installedAppPath])
+    {
+        //unregister login item
+        // don't care about error, cuz it might not be there (user prefs)
+        toggleLoginItem([NSURL fileURLWithPath: [installedAppPath stringByAppendingPathComponent:[NSString stringWithFormat:@"/Contents/Library/LoginItems/%@.app", LOGIN_ITEM_NAME]]], ACTION_UNINSTALL);
+        
+        //delete app
+        if(YES != [[NSFileManager defaultManager] removeItemAtPath:installedAppPath error:&error])
+        {
+            //err msg
+            logMsg(LOG_ERR, [NSString stringWithFormat:@"failed to delete app %@ (%@)", installedAppPath, error]);
+            
+            //set flag
+            bAnyErrors = YES;
+            
+            //keep uninstalling...
+        }
+
+        //if ~/Applications is now empty
+        // be nice and remove that folder too
+        if(0 == [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:[USER_APPS_FOLDER stringByExpandingTildeInPath] error:nil] count])
+        {
+           //delete ~/Applications
+           [[NSFileManager defaultManager] removeItemAtPath:[USER_APPS_FOLDER stringByExpandingTildeInPath] error:nil];
+        }
+    }
     
     //full uninstall?
     // also remove preferences
