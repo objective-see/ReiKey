@@ -736,7 +736,7 @@ BOOL startApplication(NSURL* path, NSUInteger launchOptions)
     if(nil == [[NSWorkspace sharedWorkspace] launchApplicationAtURL:path options:launchOptions configuration:@{} error:&error])
     {
         //err msg
-        logMsg(LOG_ERR, [NSString stringWithFormat:@"failed to application: %@/%@", path, error]);
+        logMsg(LOG_ERR, [NSString stringWithFormat:@"failed to launch application: %@/%@", path, error]);
         
         //bail
         goto bail;

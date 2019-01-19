@@ -99,6 +99,9 @@ bail:
     //tap ID
     NSNumber* tapID = nil;
     
+    //dbg msg
+    logMsg(LOG_DEBUG, [NSString stringWithFormat:@"main (rules/pref) app launched to handle url(s): %@", urls]);
+    
     //set flag
     self.urlLaunch = YES;
     

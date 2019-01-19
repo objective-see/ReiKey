@@ -190,9 +190,21 @@ bail:
                 //dbg msg
                 logMsg(LOG_DEBUG, [NSString stringWithFormat:@"kCGNotifyEventTapAdded fired (new tap: %@)", currentTaps[tapID]]);
                 
-                //wait a few seconds and recheck
-                // a lot of notifications seem temporary (i.e. vmware)
-                [NSThread sleepForTimeInterval:5.0f];
+                //logic for vmware
+                // it's notifications seem temporary, so nap longer before re-checking
+                if(YES == [[currentTaps[tapID][TAP_SOURCE_PATH] lastPathComponent] isEqualToString:@"vmware-vmx"])
+                {
+                    //nap
+                    [NSThread sleepForTimeInterval:10.0f];
+                }
+                //just nap a bit
+                // some notifications seem temporary
+                else
+                {
+                    //wait a few seconds and recheck
+                    // some notifications seem temporary (i.e. vmware)
+                    [NSThread sleepForTimeInterval:2.0f];
+                }
                 
                 //(re)enumerate
                 // ignore if the tap went away

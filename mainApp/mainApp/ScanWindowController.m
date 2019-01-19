@@ -115,7 +115,7 @@
     }
     
     //sync access to event taps
-    @synchronized (self.eventTaps)
+    @synchronized(self)
     {
         
     //enumerate existing taps
