@@ -255,15 +255,9 @@ bail:
 // load documentation for error(s) in default browser
 -(IBAction)info:(id)sender
 {
-    //url
-    NSURL *helpURL = nil;
-    
-    //build help URL
-    helpURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@#errors", PRODUCT_URL]];
-    
     //open URL
     // invokes user's default browser
-    [[NSWorkspace sharedWorkspace] openURL:helpURL];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:ERRORS_URL]];
     
     return;
 }
@@ -423,12 +417,25 @@ bail:
     [self.statusMsg setStringValue:resultMsg];
     
     //update button
-    // after install change butter to 'Next'
+    // after install change button to 'Next', unless error
     if(ACTION_INSTALL == event)
     {
-        //set button title to 'close'
-        self.installButton.title = UI_NEXT;
+        //error
+        // set button to 'close'
+        if(YES != success)
+        {
+            //set button title
+            self.installButton.title = UI_CLOSE;
+        }
         
+        //install ok
+        // set button to 'next'
+        else
+        {
+            //set button title
+            self.installButton.title = UI_NEXT;
+        }
+    
         //enable
         self.installButton.enabled = YES;
         

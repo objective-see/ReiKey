@@ -91,14 +91,17 @@
 //product url
 #define PRODUCT_URL @"https://objective-see.com/products/reikey.html"
 
+//product version url
+#define PRODUCT_VERSIONS_URL @"https://objective-see.com/products.json"
+
+//error(s) url
+#define ERRORS_URL @"https://objective-see.com/errors.html"
+
 //support us button tag
 #define BUTTON_SUPPORT_US 100
 
 //more info button tag
 #define BUTTON_MORE_INFO 101
-
-//product version url
-#define PRODUCT_VERSIONS_URL @"https://objective-see.com/products.json"
 
 //login item name
 #define LOGIN_ITEM_NAME @"ReiKey Helper"
