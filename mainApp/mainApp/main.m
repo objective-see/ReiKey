@@ -10,8 +10,9 @@
 
 #import "main.h"
 #import "consts.h"
-#import "EventTaps.h"
 #import "logging.h"
+#import "signing.h"
+#import "EventTaps.h"
 #import "utilities.h"
 
 //main
@@ -76,7 +77,8 @@ void usage()
     printf("\nREIKEY USAGE:\n");
     printf(" -h or -help  display this usage info\n");
     printf(" -scan        enumerate all keyboard event taps\n");
-    printf(" -pretty      during command line scan, JSON output is 'pretty-printed'\n\n");
+    printf(" -pretty      JSON output is 'pretty-printed' for readability\n");
+    printf(" -skipApple   ignore event taps that belong to Apple processes \n\n");
 
     return;
 }
@@ -85,13 +87,48 @@ void usage()
 void cmdlineScan()
 {
     //event taps
-    NSArray* eventTaps = nil;
+    NSMutableArray* eventTaps = nil;
+    
+    //current tap
+    NSDictionary* eventTap = nil;
+    
+    //signing info
+    NSDictionary* signingInfo = nil;
     
     //output
     NSMutableString* output = nil;
     
     //scan
-    eventTaps = [[[[EventTaps alloc] init] enumerate] allValues];
+    eventTaps = [[[[[EventTaps alloc] init] enumerate] allValues] mutableCopy];
+    
+    //ingore apple signed event taps?
+    if(YES == [[[NSProcessInfo processInfo] arguments] containsObject:@"-skipApple"])
+    {
+        //remove any apple event taps
+        // iterate backwards so we can enumerate and remove at same time
+        for(NSInteger index = eventTaps.count-1; index >= 0; index--)
+        {
+            //tap
+            eventTap = eventTaps[index];
+            
+            //generate signing info
+            // first dynamically (via pid)
+            signingInfo = extractSigningInfo([eventTap[TAP_SOURCE_PID] intValue], nil, kSecCSDefaultFlags);
+            if(nil == signingInfo)
+            {
+                //extract signing info statically
+                signingInfo = extractSigningInfo(0, eventTap[TAP_SOURCE_PATH], kSecCSCheckAllArchitectures | kSecCSCheckNestedCode | kSecCSDoNotValidateResources);
+            }
+            
+            //ignore if signed by apple
+            if( (noErr == [signingInfo[KEY_SIGNATURE_STATUS] intValue]) &&
+                (Apple == [signingInfo[KEY_SIGNATURE_SIGNER] intValue]) )
+            {
+                //ignore
+                [eventTaps removeObjectAtIndex:index];
+            }
+        }
+    }
 
     //init output string
     output = [NSMutableString string];

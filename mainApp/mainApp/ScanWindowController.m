@@ -25,8 +25,12 @@
 // show overlay, etc...
 -(void)preScan
 {
-    //unset
-    self.eventTaps = nil;
+    //sync
+    @synchronized (self)
+    {
+        //unset
+        self.eventTaps = nil;
+    }
     
     //reload table to clear
     [self.tableView reloadData];
@@ -101,6 +105,9 @@
 // then reload table
 -(void)scan
 {
+    //current event taps
+    NSMutableArray* currentEventTaps = nil;
+    
     //tap
     NSDictionary* eventTap = nil;
     
@@ -114,12 +121,8 @@
         eventTapsObj = [[EventTaps alloc] init];
     }
     
-    //sync access to event taps
-    @synchronized(self)
-    {
-        
     //enumerate existing taps
-    self.eventTaps = [[[eventTapsObj enumerate] allValues] mutableCopy];
+    currentEventTaps = [[[eventTapsObj enumerate] allValues] mutableCopy];
     
     //ignore apple?
     // remove any apple event taps
@@ -127,10 +130,10 @@
     {
         //remove any apple event taps
         // iterate backwards so we can enumerate and remove at same time
-        for(NSInteger index = self.eventTaps.count-1; index >= 0; index--)
+        for(NSInteger index = currentEventTaps.count-1; index >= 0; index--)
         {
             //tap
-            eventTap = self.eventTaps[index];
+            eventTap = currentEventTaps[index];
             
             //generate signing info
             // first dynamically (via pid)
@@ -149,12 +152,10 @@
                 logMsg(LOG_DEBUG, @"ingoring alert: preference set ('apple ignore') and tapping process is signed by apple");
                 
                 //remove
-                [self.eventTaps removeObjectAtIndex:index];
+                [currentEventTaps removeObjectAtIndex:index];
             }
         }
     }
-        
-    } //sync
     
     //on main thread
     // show results (i.e. keyboard taps)
@@ -163,6 +164,13 @@
         //nap
         // allow overlay to show...
         [NSThread sleepForTimeInterval:1.0];
+        
+        //save into ivar
+        @synchronized (self)
+        {
+            //save
+            self.eventTaps = currentEventTaps;
+        }
         
         //show results
         [self displayResults];
@@ -221,6 +229,10 @@
     //was a tap id specified to select?
     if(nil != self.tapID)
     {
+        //sync
+        @synchronized (self)
+        {
+        
         //find matching
         // use index, cuz, need index to select row
         for(NSUInteger index = 0; index < self.eventTaps.count; index++)
@@ -238,6 +250,8 @@
                 break;
             }
         }
+            
+        } //sync
         
         //unset
         // (rescans) should default back to selecting first row
@@ -288,15 +302,19 @@ bail:
     //process icon
     NSImage* processIcon = nil;
     
-    //sanity check
-    if(row >= self.eventTaps.count)
+    //sync
+    @synchronized (self)
     {
-        //bail
-        goto bail;
+        //sanity check
+        if(row >= self.eventTaps.count)
+        {
+            //bail
+            goto bail;
+        }
+        
+        //get event tap
+        eventTap = self.eventTaps[row];
     }
-    
-    //get event tap
-    eventTap = self.eventTaps[row];
     
     //column: 'process'
     if(tableColumn == tableView.tableColumns[0])
@@ -430,15 +448,25 @@ bail:
     
     //grab row
     row = self.tableView.clickedRow;
-    if( (-1 == row) ||
-        (self.eventTaps.count <= row) )
+    if(-1 == row)
     {
         //bail
         goto bail;
     }
     
-    //extract event tap
-    eventTap = self.eventTaps[row];
+    //sync
+    @synchronized (self)
+    {
+        //sanity check
+        if(self.eventTaps.count <= row)
+        {
+            //bail
+            goto bail;
+        }
+        
+        //extract event tap
+        eventTap = self.eventTaps[row];
+    }
     
     //load shared defaults
     sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:SUITE_NAME];
@@ -482,18 +510,29 @@ bail:
     //muted items
     NSMutableArray* mutedItems = nil;
     
+    
     //grab row
     row = self.tableView.clickedRow;
-    if( (-1 == row) ||
-        (self.eventTaps.count <= row) )
+    if(-1 == row)
     {
         //bail
         goto bail;
     }
     
-    //extract event tap
-    eventTap = self.eventTaps[row];
-    
+    //sync
+    @synchronized (self)
+    {
+        //sanity check
+        if(self.eventTaps.count <= row)
+        {
+            //bail
+            goto bail;
+        }
+        
+        //extract event tap
+        eventTap = self.eventTaps[row];
+    }
+
     //load shared defaults
     sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:SUITE_NAME];
     
