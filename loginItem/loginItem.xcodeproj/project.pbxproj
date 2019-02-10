@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7D3B75141F13354900568828 /* StatusBarMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3B74FD1F13354900568828 /* StatusBarMenu.m */; };
+		7D3B75141F13354900568828 /* StatusBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3B74FD1F13354900568828 /* StatusBarItem.m */; };
 		7D3B75251F13357D00568828 /* logging.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3B75231F13357D00568828 /* logging.m */; };
 		7D5C5F521F200B9200C0E94A /* utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D5C5F511F200B9200C0E94A /* utilities.m */; };
 		7D7755E81F02E05B00D0017D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7755E71F02E05B00D0017D /* AppDelegate.m */; };
@@ -39,8 +39,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		7D3B74FD1F13354900568828 /* StatusBarMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusBarMenu.m; sourceTree = "<group>"; };
-		7D3B74FF1F13354900568828 /* StatusBarMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusBarMenu.h; sourceTree = "<group>"; };
+		7D3B74FD1F13354900568828 /* StatusBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusBarItem.m; sourceTree = "<group>"; };
+		7D3B74FF1F13354900568828 /* StatusBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusBarItem.h; sourceTree = "<group>"; };
 		7D3B75021F13354900568828 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = MainMenu.xib; sourceTree = "<group>"; };
 		7D3B75221F13357D00568828 /* consts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = consts.h; path = ../shared/consts.h; sourceTree = "<group>"; };
 		7D3B75231F13357D00568828 /* logging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = logging.m; path = ../shared/logging.m; sourceTree = "<group>"; };
@@ -124,8 +124,8 @@
 			children = (
 				7D7755E61F02E05B00D0017D /* AppDelegate.h */,
 				7D7755E71F02E05B00D0017D /* AppDelegate.m */,
-				7D3B74FF1F13354900568828 /* StatusBarMenu.h */,
-				7D3B74FD1F13354900568828 /* StatusBarMenu.m */,
+				7D3B74FF1F13354900568828 /* StatusBarItem.h */,
+				7D3B74FD1F13354900568828 /* StatusBarItem.m */,
 				CD22785B20434CAB00C72C76 /* StatusBarPopover.xib */,
 				CD22785C20434CAB00C72C76 /* StatusBarPopoverController.h */,
 				CD22785D20434CAB00C72C76 /* StatusBarPopoverController.m */,
@@ -241,7 +241,7 @@
 			files = (
 				CD18CE3121D43ED500D968D6 /* EventTaps.m in Sources */,
 				CD24D22621E13A1E00E5CB14 /* signing.m in Sources */,
-				7D3B75141F13354900568828 /* StatusBarMenu.m in Sources */,
+				7D3B75141F13354900568828 /* StatusBarItem.m in Sources */,
 				7D7755EB1F02E05B00D0017D /* main.m in Sources */,
 				CD18CE6921D8504100D968D6 /* UpdateWindowController.m in Sources */,
 				7D3B75251F13357D00568828 /* logging.m in Sources */,

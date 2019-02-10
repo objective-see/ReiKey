@@ -21,6 +21,12 @@ int main(int argc, const char * argv[])
 {
     //return var
     int status = -1;
+ 
+    //args
+    NSArray* arguments = nil;
+    
+    //grab args
+    arguments = [[NSProcessInfo processInfo] arguments];
     
     //disable stderr
     // crash reporter dumps info here
@@ -34,8 +40,8 @@ int main(int argc, const char * argv[])
     logMsg(LOG_DEBUG, [NSString stringWithFormat:@"starting main app (args: %@)", [[NSProcessInfo processInfo] arguments]]);
     
     //handle '-h' or '-help'
-    if( (YES == [[[NSProcessInfo processInfo] arguments] containsObject:@"-h"]) ||
-        (YES == [[[NSProcessInfo processInfo] arguments] containsObject:@"-help"]) )
+    if( (YES == [arguments containsObject:@"-h"]) ||
+        (YES == [arguments containsObject:@"-help"]) )
     {
         //print usage
         usage();
@@ -46,13 +52,25 @@ int main(int argc, const char * argv[])
     
     //handle '-scan'
     // cmdline scan without UI
-    if(YES == [[[NSProcessInfo processInfo] arguments] containsObject:@"-scan"])
+    if(YES == [arguments containsObject:@"-scan"])
     {
         //scan
         cmdlineScan();
         
         //happy
         status = 0;
+        
+        //done
+        goto bail;
+    }
+    
+    //handle invalid args
+    // allow `-psn_` cuz OS sometimes adds this?
+    if( (arguments.count > 1) &&
+        (YES != [arguments[1] hasPrefix:@"-psn_"]) )
+    {
+        //print usage
+        usage();
         
         //done
         goto bail;

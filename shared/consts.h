@@ -187,4 +187,10 @@ enum Signer{None, Apple, AppStore, DevID, AdHoc};
 //entitlements
 #define KEY_SIGNATURE_ENTITLEMENTS @"signatureEntitlements"
 
+//dismiss alert
+#define ALERT_DISMISS 0
+
+//details alert
+#define ALERT_DETAILS 1
+
 #endif /* const_h */

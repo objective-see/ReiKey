@@ -17,8 +17,9 @@
 @implementation AppDelegate
 
 @synthesize alerts;
+@synthesize currentAlert;
+@synthesize statusBarController;
 @synthesize updateWindowController;
-@synthesize statusBarMenuController;
 
 //app's main interface
 // load status bar
@@ -55,7 +56,7 @@
     {
         //alloc/load status bar icon/menu
         // will configure, and show popup/menu
-        statusBarMenuController = [[StatusBarMenu alloc] init:self.statusMenu];
+        statusBarController = [[StatusBarItem alloc] init:self.statusMenu];
         
         //dbg msg
         logMsg(LOG_DEBUG, @"initialized/loaded status bar (icon/menu)");
@@ -187,24 +188,36 @@
     // init status bar, and show button
     if(YES == [[[NSUserDefaults alloc] initWithSuiteName:SUITE_NAME] boolForKey:PREF_RUN_WITH_ICON])
     {
-        //need to init?
-        if(nil == self.statusBarMenuController)
+        //already showing?
+        if(nil != self.statusBarController)
         {
-            //alloc/load status bar icon/menu
-            // will configure, and show popup/menu
-            statusBarMenuController = [[StatusBarMenu alloc] init:self.statusMenu];
+            //bail
+            goto bail;
         }
         
-        //(always) show
-        statusBarMenuController.statusItem.button.hidden = NO;
+        //alloc/load status bar icon/menu
+        // will configure, and show popup/menu
+        statusBarController = [[StatusBarItem alloc] init:self.statusMenu];
     }
     //run without icon
     // just hide button
     else
     {
-        //hide
-        statusBarMenuController.statusItem.button.hidden = YES;
+        //already removed?
+        if(nil == self.statusBarController)
+        {
+            //bail
+            goto bail;
+        }
+        
+        //remove status item
+        [self.statusBarController removeStatusItem];
+        
+        //unset
+        self.statusBarController = nil;
     }
+    
+bail:
     
     return;
 }
@@ -214,7 +227,7 @@
 {
     //notification
     NSUserNotification* notification = nil;
-
+    
     //dbg msg
     logMsg(LOG_DEBUG, @"showing alert to user");
     
@@ -239,6 +252,9 @@
     //add alert
     notification.userInfo = alert;
     
+    //save alert
+    self.currentAlert = alert;
+    
     //set delegate to self
     [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
     
@@ -248,8 +264,8 @@
         //deliver notification
         [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
         
-        //TODO: add touch bar support
-        //[((AppDelegate*)[[NSApplication sharedApplication] delegate]) initTouchBar];
+        //touch bar support
+        [self initTouchBar];
         
     });
     
@@ -269,6 +285,9 @@
     //url
     NSURL* url = nil;
     
+    //hide touchbar
+    self.touchBar = nil;
+    
     //only want to process when user clicks on action button (i.e. "Details")
     if(NSUserNotificationActivationTypeActionButtonClicked != notification.activationType)
     {
@@ -286,6 +305,152 @@
 bail:
 
     return;
+}
+
+//init/show touch bar
+-(void)initTouchBar
+{
+    //touch bar items
+    NSArray *touchBarItems = nil;
+    
+    //touch bar API is only 10.12.2+
+    if(@available(macOS 10.12.2, *))
+    {
+        //alloc/init
+        self.touchBar = [[NSTouchBar alloc] init];
+        if(nil == self.touchBar)
+        {
+            //no touch bar?
+            goto bail;
+        }
+        
+        //set delegate
+        self.touchBar.delegate = self;
+        
+        //set id
+        self.touchBar.customizationIdentifier = @"com.objective-see.reikey";
+        
+        //init items
+        touchBarItems = @[@".icon", @".label", @".dismiss", @".details"];
+        
+        //set items
+        self.touchBar.defaultItemIdentifiers = touchBarItems;
+        
+        //set customization items
+        self.touchBar.customizationAllowedItemIdentifiers = touchBarItems;
+        
+        //activate so touchbar shows up
+        [NSApp activateIgnoringOtherApps:YES];
+    }
+    
+bail:
+    
+    return;
+}
+
+//touch bar handler
+-(IBAction)touchBarEventHandler:(id)sender
+{
+    //url
+    NSURL* url = nil;
+    
+    //dimiss (all) notification
+    [[NSUserNotificationCenter defaultUserNotificationCenter] removeAllDeliveredNotifications];
+    
+    //show more details?
+    if(ALERT_DETAILS == ((NSButton*)sender).tag)
+    {
+        //init url
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"reikey://scan?%@=%@", TAP_ID, self.currentAlert[TAP_ID]]];
+        
+        //launch main app with 'scan' url
+        // note: pass in tap id, so it can be selected in table
+        [[NSWorkspace sharedWorkspace] openURL:url];
+    }
+    
+    //unset
+    // will hide touchbar
+    self.touchBar = nil;
+    
+    return;
+}
+
+
+//delegate method
+// init item for touch bar
+-(NSTouchBarItem *)touchBar:(NSTouchBar *)touchBar makeItemForIdentifier:(NSTouchBarItemIdentifier)identifier
+{
+    //icon view
+    NSImageView *iconView = nil;
+    
+    //icon
+    NSImage* icon = nil;
+    
+    //item
+    NSCustomTouchBarItem *touchBarItem = nil;
+    
+    //init item
+    touchBarItem = [[NSCustomTouchBarItem alloc] initWithIdentifier:identifier];
+    
+    //icon
+    if(YES == [identifier isEqualToString: @".icon" ])
+    {
+        //init icon view
+        iconView = [[NSImageView alloc] initWithFrame:NSMakeRect(0, 0, 30.0, 30.0)];
+        
+        //enable layer
+        [iconView setWantsLayer:YES];
+        
+        //set color
+        [iconView.layer setBackgroundColor:[[NSColor windowBackgroundColor] CGColor]];
+        
+        //mask
+        iconView.layer.masksToBounds = YES;
+        
+        //round corners
+        iconView.layer.cornerRadius = 3.0;
+        
+        //load icon image
+        icon = [NSImage imageNamed:@"ReiKeyIcon"];
+        
+        //set size
+        icon.size = CGSizeMake(30, 30);
+        
+        //add image
+        iconView.image = icon;
+        
+        //set view
+        touchBarItem.view = iconView;
+    }
+    
+    //label
+    else if(YES == [identifier isEqualToString:@".label"])
+    {
+        //item label
+        touchBarItem.view = [NSTextField labelWithString:[NSString stringWithFormat:@"New Keyboard Event Tap: %@ (%@)", [((NSString*)self.currentAlert[TAP_SOURCE_PATH]) lastPathComponent], self.currentAlert[TAP_SOURCE_PID]]];
+    }
+    
+    //dismiss button
+    else if(YES == [identifier isEqualToString:@".dismiss"])
+    {
+        //init button
+        touchBarItem.view = [NSButton buttonWithTitle: @"Dismiss" target:self action: @selector(touchBarEventHandler:)];
+        
+        //set 'dismiss' tag
+        ((NSButton*)touchBarItem.view).tag = ALERT_DISMISS;
+    }
+    
+    //allow button
+    else if(YES == [identifier isEqualToString:@".details"])
+    {
+        //init button
+        touchBarItem.view = [NSButton buttonWithTitle: @"Details" target:self action: @selector(touchBarEventHandler:)];
+        
+        //set 'details' tag
+        ((NSButton*)touchBarItem.view).tag = ALERT_DETAILS;
+    }
+    
+    return touchBarItem;
 }
 
 //call into Update obj

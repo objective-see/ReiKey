@@ -8,7 +8,7 @@
 
 @import Cocoa;
 
-#import "StatusBarMenu.h"
+#import "StatusBarItem.h"
 #import "UpdateWindowController.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate, NSUserNotificationCenterDelegate, NSTouchBarProvider, NSTouchBarDelegate>
@@ -22,13 +22,16 @@
 @property(strong) IBOutlet NSMenu* statusMenu;
 
 //status bar menu controller
-@property(nonatomic, retain)StatusBarMenu* statusBarMenuController;
+@property(nonatomic, retain)StatusBarItem* statusBarController;
 
 //touch bar
 @property(nonatomic, retain)NSTouchBar* touchBar;
 
 //update window controller
 @property(nonatomic, retain)UpdateWindowController* updateWindowController;
+
+//(current) alert
+@property(nonatomic, retain)NSDictionary* currentAlert;
 
 //alerts
 @property(nonatomic, retain)NSMutableDictionary* alerts;

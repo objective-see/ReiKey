@@ -10,7 +10,7 @@
 #import "logging.h"
 #import "utilities.h"
 #import "AppDelegate.h"
-#import "StatusBarMenu.h"
+#import "StatusBarItem.h"
 #import "StatusBarPopoverController.h"
 
 //menu items
@@ -24,10 +24,11 @@ enum menuItems
     end
 };
 
-@implementation StatusBarMenu
+@implementation StatusBarItem
 
 @synthesize isDisabled;
 @synthesize statusItem;
+@synthesize statusMenu;
 
 //init method
 // set some intial flags, init daemon comms, etc.
@@ -40,27 +41,14 @@ enum menuItems
     self = [super init];
     if(self != nil)
     {
+        //save menu
+        self.statusMenu = menu;
+        
         //load shared defaults
         sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:SUITE_NAME];
         
-        //init status item
-        statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength];
-        
-        //set menu
-        self.statusItem.menu = menu;
-        
-        //set action handler for all items
-        for(int i=toggle; i<end; i++)
-        {
-            //set action
-            [self.statusItem.menu itemWithTag:i].action = @selector(handler:);
-            
-            //set state
-            [self.statusItem.menu itemWithTag:i].enabled = YES;
-            
-            //set target
-            [self.statusItem.menu itemWithTag:i].target = self;
-        }
+        //create status item
+        [self createStatusItem];
         
         //first time?
         // show popover
@@ -81,6 +69,46 @@ enum menuItems
     }
     
     return self;
+}
+
+//create status item
+-(void)createStatusItem
+{
+    //init status item
+    statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength];
+    
+    //set menu
+    self.statusItem.menu = self.statusMenu;
+    
+    //set action handler for all menu items
+    for(int i=toggle; i<end; i++)
+    {
+        //set action
+        [self.statusItem.menu itemWithTag:i].action = @selector(handler:);
+        
+        //set state
+        [self.statusItem.menu itemWithTag:i].enabled = YES;
+        
+        //set target
+        [self.statusItem.menu itemWithTag:i].target = self;
+    }
+    
+    return;
+}
+
+//remove status item
+-(void)removeStatusItem
+{
+    //unset
+    self.statusItem.view = nil;
+
+    //remove item
+    [[NSStatusBar systemStatusBar] removeStatusItem:statusItem];
+    
+    //unset
+    self.statusItem = nil;
+    
+    return;
 }
 
 //show popver

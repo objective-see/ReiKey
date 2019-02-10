@@ -8,13 +8,16 @@
 
 @import Cocoa;
 
-@interface StatusBarMenu : NSObject <NSPopoverDelegate>
+@interface StatusBarItem : NSObject <NSPopoverDelegate>
 {
 
 }
 
 //status item
-@property(nonatomic, strong, readwrite)NSStatusItem *statusItem;
+@property(nonatomic, retain)NSStatusItem* statusItem;
+
+//status menu
+@property(nonatomic, retain)NSMenu* statusMenu;
 
 //popover
 @property(retain, nonatomic)NSPopover *popover;
@@ -26,5 +29,11 @@
 
 //init
 -(id)init:(NSMenu*)menu;
+
+//create status item
+-(void)createStatusItem;
+
+//remove status item
+-(void)removeStatusItem;
 
 @end

@@ -10,6 +10,7 @@
 
 #import "consts.h"
 #import "logging.h"
+#import "signing.h"
 #import "utilities.h"
 #import "EventTaps.h"
 
@@ -163,6 +164,9 @@ bail:
     // ...that include any news ones
     __block NSMutableDictionary* currentTaps = nil;
     
+    //signing info
+    __block NSMutableDictionary* signingInfo = nil;
+    
     //grab existing taps
     self.previousTaps = [self enumerate];
     
@@ -190,20 +194,33 @@ bail:
                 //dbg msg
                 logMsg(LOG_DEBUG, [NSString stringWithFormat:@"kCGNotifyEventTapAdded fired (new tap: %@)", currentTaps[tapID]]);
                 
-                //logic for vmware
-                // it's notifications seem temporary, so nap longer before re-checking
+                //ignore taps from vmware
+                // it creates a temporary event tap while one interacts with a VM
                 if(YES == [[currentTaps[tapID][TAP_SOURCE_PATH] lastPathComponent] isEqualToString:@"vmware-vmx"])
                 {
-                    //nap
-                    [NSThread sleepForTimeInterval:10.0f];
+                    //generate signing info
+                    // and make sure its vmware
+                    signingInfo = extractSigningInfo([currentTaps[tapID][TAP_SOURCE_PID] intValue], nil, kSecCSDefaultFlags);
+                    if( (nil != signingInfo) &&
+                        (noErr == [signingInfo[KEY_SIGNATURE_STATUS] intValue]) &&
+                        (DevID == [signingInfo[KEY_SIGNATURE_SIGNER] intValue]) &&
+                        (YES == [signingInfo[KEY_SIGNATURE_IDENTIFIER] isEqualToString:@"com.vmware.vmware-vmx"]) )
+                    {
+                        //dbg msg
+                        logMsg(LOG_DEBUG, @"ingoring alert: 'com.vmware.vmware-vmx'");
+                        
+                        //skip
+                        continue;
+                    }
                 }
+
                 //just nap a bit
                 // some notifications seem temporary
                 else
                 {
                     //wait a few seconds and recheck
                     // some notifications seem temporary (i.e. vmware)
-                    [NSThread sleepForTimeInterval:2.0f];
+                    [NSThread sleepForTimeInterval:1.0f];
                 }
                 
                 //(re)enumerate
@@ -220,7 +237,8 @@ bail:
                 //new
                 // and not temporary...
                 callback(currentTaps[tapID]);
-            }
+            
+            }//all taps
             
             //update taps
             self.previousTaps = currentTaps;
