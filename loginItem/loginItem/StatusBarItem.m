@@ -28,7 +28,6 @@ enum menuItems
 
 @synthesize isDisabled;
 @synthesize statusItem;
-@synthesize statusMenu;
 
 //init method
 // set some intial flags, init daemon comms, etc.
@@ -41,14 +40,11 @@ enum menuItems
     self = [super init];
     if(self != nil)
     {
-        //save menu
-        self.statusMenu = menu;
-        
         //load shared defaults
         sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:SUITE_NAME];
         
         //create status item
-        [self createStatusItem];
+        [self createStatusItem:menu];
         
         //first time?
         // show popover
@@ -72,13 +68,13 @@ enum menuItems
 }
 
 //create status item
--(void)createStatusItem
+-(void)createStatusItem:(NSMenu*)menu
 {
     //init status item
     statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength];
     
     //set menu
-    self.statusItem.menu = self.statusMenu;
+    self.statusItem.menu = menu;
     
     //set action handler for all menu items
     for(int i=toggle; i<end; i++)
@@ -103,7 +99,7 @@ enum menuItems
     self.statusItem.view = nil;
 
     //remove item
-    [[NSStatusBar systemStatusBar] removeStatusItem:statusItem];
+    [[NSStatusBar systemStatusBar] removeStatusItem:self.statusItem];
     
     //unset
     self.statusItem = nil;
