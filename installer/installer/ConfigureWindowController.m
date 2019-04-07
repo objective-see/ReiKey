@@ -486,6 +486,9 @@ bail:
         // launch main app, then exit
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
         ^{
+            //nap
+            [NSThread sleepForTimeInterval:1.0f];
+            
             //launch
             startApplication([NSURL fileURLWithPath:appPath()], NSWorkspaceLaunchDefault);
             
@@ -503,6 +506,5 @@ bail:
 
     return;
 }
-
 
 @end

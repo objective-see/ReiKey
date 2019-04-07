@@ -102,11 +102,11 @@
 -(IBAction)buttonHandler:(id)sender
 {
     //handle 'update' / 'more info', etc
-    // ->open product webpage, if they *didn't* click 'Close'
+    // open product webpage, if they *didn't* click 'Close'
     if(YES != [((NSButton*)sender).title isEqualToString:@"Close"])
     {
         //open URL
-        // ->invokes user's default browser
+        // invokes user's default browser
         [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:PRODUCT_URL]];
     }
     
