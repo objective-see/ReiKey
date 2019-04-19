@@ -69,7 +69,10 @@
         
         //set 'start at login'
         [sharedDefaults setBool:(BOOL)self.startAtLogin.state forKey:PREF_START_AT_LOGIN];
-        
+
+        //set 'show at login'
+        [sharedDefaults setBool:(BOOL)self.showStatusOnLogin.state forKey:PREF_SHOW_AT_LOGIN];
+
         //set 'run with icon'
         [sharedDefaults setBool:(BOOL)self.runWithIcon.state forKey:PREF_RUN_WITH_ICON];
         

@@ -50,7 +50,10 @@
     
     //set 'start at login' button state
     self.startAtLogin.state = [sharedDefaults boolForKey:PREF_START_AT_LOGIN];
-    
+
+    //set 'start at login' button state
+    self.sho.state = [sharedDefaults boolForKey:PREF_START_AT_LOGIN];
+
     //set 'run with icon' button state
     self.runWithIcon.state = [sharedDefaults boolForKey:PREF_RUN_WITH_ICON];
     
@@ -161,6 +164,18 @@
         
         //set 'start at login'
         [sharedDefaults setBool:(BOOL)self.startAtLogin.state forKey:PREF_START_AT_LOGIN];
+    }
+
+    //'show at login'
+    // ...just set preference
+    else if(sender == self.showAtLogin)
+    {
+        //set 'show at login'
+        [sharedDefaults setBool:(BOOL)self.showAtLogin.state forKey:PREF_SHOW_AT_LOGIN];
+      
+        //broadcast notification
+        // tells login item to hide/show icon
+        [[NSDistributedNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_PREFS_CHANGED object:nil userInfo:nil deliverImmediately:YES];
     }
     
     //'run with icon'

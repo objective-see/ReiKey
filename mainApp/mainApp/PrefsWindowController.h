@@ -31,6 +31,9 @@
 //'start at login' button
 @property (weak) IBOutlet NSButton *startAtLogin;
 
+//'show at login' button
+@property (weak) IBOutlet NSButton *showAtLogin;
+
 //'run with icon' button
 @property (weak) IBOutlet NSButton *runWithIcon;
 

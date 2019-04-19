@@ -29,6 +29,9 @@
 //allow 3rd-party installed apps
 @property (weak) IBOutlet NSButton *runWithIcon;
 
+//show status on login
+@property (weak) IBOutlet NSButton *showStatusOnLogin;
+
 //'ignore apple programs' button
 @property (weak) IBOutlet NSButton *ignoreAppleBinaries;
 
