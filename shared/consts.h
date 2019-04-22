@@ -115,6 +115,10 @@
 #define PREF_START_AT_LOGIN @"startAtLogin"
 
 //prefs
+// start at login
+#define PREF_SHOW_AT_LOGIN @"showAtLogin"
+
+//prefs
 // run with icon
 #define PREF_RUN_WITH_ICON @"runWithIcon"
 

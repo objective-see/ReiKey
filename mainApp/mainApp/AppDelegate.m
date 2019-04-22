@@ -69,8 +69,13 @@
     // default to showing scan window
     else
     {
-        //show scan window
-        [self showScan:nil];
+        NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:SUITE_NAME];
+
+        //only show scan window if allowed via preferences (default: true aka show scan)
+        if(YES == [sharedDefaults boolForKey:PREF_SHOW_AT_LOGIN]) {
+            //show scan window
+            [self showScan:nil];
+        }
         
         //if needed
         // start login item
