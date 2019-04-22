@@ -52,7 +52,7 @@
     self.startAtLogin.state = [sharedDefaults boolForKey:PREF_START_AT_LOGIN];
 
     //set 'start at login' button state
-    self.sho.state = [sharedDefaults boolForKey:PREF_START_AT_LOGIN];
+    self.showAtLogin.state = [sharedDefaults boolForKey:PREF_START_AT_LOGIN];
 
     //set 'run with icon' button state
     self.runWithIcon.state = [sharedDefaults boolForKey:PREF_RUN_WITH_ICON];
