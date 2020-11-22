@@ -138,21 +138,31 @@
             //generate signing info
             // first dynamically (via pid)
             signingInfo = extractSigningInfo([eventTap[TAP_SOURCE_PID] intValue], nil, kSecCSDefaultFlags);
-            if(nil == signingInfo)
-            {
-                //extract signing info statically
-                signingInfo = extractSigningInfo(0, eventTap[TAP_SOURCE_PATH], kSecCSCheckAllArchitectures | kSecCSCheckNestedCode | kSecCSDoNotValidateResources);
-            }
             
             //remove if signed by apple
             if( (noErr == [signingInfo[KEY_SIGNATURE_STATUS] intValue]) &&
                 (Apple == [signingInfo[KEY_SIGNATURE_SIGNER] intValue]) )
             {
                 //dbg msg
-                logMsg(LOG_DEBUG, @"ingoring alert: preference set ('apple ignore') and tapping process is signed by apple");
+                logMsg(LOG_DEBUG, @"ingoring tap: preference set ('apple ignore') and tapping process is signed by apple");
                 
                 //remove
                 [currentEventTaps removeObjectAtIndex:index];
+            }
+            
+            //remove gamecontrollerd
+            // on Big Sur, can't enum its CS info, but it's SIP'd
+            if (@available(macOS 10.16, *))
+            {
+                if( (kPOSIXErrorEPERM == [signingInfo[KEY_SIGNATURE_STATUS] intValue]) &&
+                    (YES == [eventTap[TAP_SOURCE_PATH] isEqualToString:@"/usr/libexec/gamecontrollerd"]) )
+                {
+                    //dbg msg
+                    logMsg(LOG_DEBUG, @"ingoring tap: preference set ('apple ignore') and tapping process is 'gamecontrollerd'");
+                    
+                    //remove
+                    [currentEventTaps removeObjectAtIndex:index];
+                }
             }
         }
     }

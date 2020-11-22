@@ -34,9 +34,6 @@
     //current tap
     CGEventTapInformation tap = {0};
     
-    //key tap
-    CGEventMask keyboardTap = CGEventMaskBit(kCGEventKeyUp) | CGEventMaskBit(kCGEventKeyDown);
-    
     //tapping process
     NSString* sourcePath = nil;
     
@@ -79,9 +76,15 @@
         tap = taps[i];
         
         //ignore disabled taps
-        // or non-keyboard taps
-        if( (true != tap.enabled) ||
-            ((keyboardTap & tap.eventsOfInterest) != keyboardTap) )
+        if(true != tap.enabled)
+        {
+            //skip
+            continue;
+        }
+        
+        //skip non-keyboard taps
+        if( ((CGEventMaskBit(kCGEventKeyUp) & tap.eventsOfInterest) != CGEventMaskBit(kCGEventKeyUp)) &&
+            ((CGEventMaskBit(kCGEventKeyDown) & tap.eventsOfInterest) != CGEventMaskBit(kCGEventKeyDown)) )
         {
             //skip
             continue;
@@ -145,8 +148,6 @@ bail:
     {
         //free
         free(taps);
-        
-        //unset
         taps = NULL;
     }
     

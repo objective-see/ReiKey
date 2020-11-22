@@ -67,7 +67,8 @@ int main(int argc, const char * argv[])
     //handle invalid args
     // allow `-psn_` cuz OS sometimes adds this?
     if( (arguments.count > 1) &&
-        (YES != [arguments[1] hasPrefix:@"-psn_"]) )
+        (YES != [arguments[1] hasPrefix:@"-psn_"]) &&
+        (YES != [arguments containsObject:@"-NSDocumentRevisionsDebugMode"]) )
     {
         //print usage
         usage();

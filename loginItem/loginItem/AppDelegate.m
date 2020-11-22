@@ -151,6 +151,21 @@
                     //ignore
                     return;
                 }
+                
+                //remove gamecontrollerd
+                // on Big Sur, can't enum its CS info, but it's SIP'd
+                if (@available(macOS 10.16, *))
+                {
+                    if( (kPOSIXErrorEPERM == [signingInfo[KEY_SIGNATURE_STATUS] intValue]) &&
+                        (YES == [tap[TAP_SOURCE_PATH] isEqualToString:@"/usr/libexec/gamecontrollerd"]) )
+                    {
+                        //dbg msg
+                        logMsg(LOG_DEBUG, @"ingoring tap: preference set ('apple ignore') and tapping process is 'gamecontrollerd'");
+                        
+                        //ignore
+                        return;
+                    }
+                }
             }
         
             //ok, show alert!
